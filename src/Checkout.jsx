@@ -6,7 +6,7 @@
 import React, { Component } from 'react'
 import DeliveryNewAddressWrap from './DeliveryNewAddressWrap'
 import DeliveryDetailsWrap from './DeliveryDetailsWrap'
-
+import { Formik, Field } from "formik";
 
 export default class Checkout extends Component {
     render() {
@@ -331,7 +331,8 @@ export default class Checkout extends Component {
 
 
                             <div className="delivery_wrap">                                
-                                <DeliveryDetailsWrap />    
+                                {/* <DeliveryDetailsWrap />     */}
+                                <Formik component={DeliveryDetailsWrap} />                                   
                                 <DeliveryNewAddressWrap />                         
                             </div>
 
