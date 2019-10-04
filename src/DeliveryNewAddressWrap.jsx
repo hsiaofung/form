@@ -1,9 +1,17 @@
 import React, { Component } from "react";
-import { Formik, Field, withFormik } from "formik";
+import { Formik, Field, withFormik, ErrorMessage } from "formik";
+import * as yup from "yup";
 
 class DeliveryNewAddress extends Component {
   render() {
-    const { values, handleChange, handleBlur, handleSubmit } = this.props;
+    const {
+      values,
+      handleChange,
+      handleBlur,
+      handleSubmit,
+      touched,
+      errors
+    } = this.props;
     return (
       <div className="delivery_newAddress_wrap">
         <div className="subtitle subtitle_sect">送貨地址</div>
@@ -40,8 +48,18 @@ class DeliveryNewAddress extends Component {
                     value={values.delivery_customerName}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    class={
+                      touched.delivery_customerName &&
+                      errors.delivery_customerName
+                        ? "error"
+                        : ""
+                    }
                   />
-                  <span className="text-error">必須填寫</span>
+                  {/* {touched.delivery_customerName && errors.delivery_customerName
+                    ? errors.delivery_customerName
+                    : ""} */}
+                  <ErrorMessage name="delivery_customerName" />
+                  {/* <span className="text-error">必須填寫</span> */}
                 </p>
               </div>
             </div>
@@ -75,7 +93,7 @@ class DeliveryNewAddress extends Component {
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                  <span className="text-error">必須填寫</span>
+                  <ErrorMessage name="delivery_phoneNo" />
                 </p>
               </div>
             </div>
@@ -91,7 +109,8 @@ class DeliveryNewAddress extends Component {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <span className="text-error">必須填寫</span>
+            <ErrorMessage name="delivery_addressLine1" />
+            {/* <span className="text-error">必須填寫</span> */}
           </p>
           <p>
             <input
@@ -150,8 +169,42 @@ class DeliveryNewAddress extends Component {
     );
   }
 }
+const customerNameNotLongEnough = (
+  <span className="text-error">必須填寫大於3個字</span>
+);
+const invalidPhoneNo = <span className="text-error">電話號碼無效</span>;
+const addressNoNotLongEnough = (
+  <span className="text-error">必須填寫大於8個字</span>
+);
+const required = <span className="text-error">必須填寫</span>;
 
+const deliveryCustomerNameValidation = yup
+  .string()
+  .min(3, customerNameNotLongEnough)
+  .max(255)
+  .required(required);
+
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+const deliveryPhoneNoValidation = yup
+  .string()
+  .matches(phoneRegExp, invalidPhoneNo)
+  .required(required);
+
+const deliveryAddressLine1Validation = yup
+  .string()
+  .min(8, addressNoNotLongEnough)
+  .max(255)
+  .required(required);
+
+const validationSchema = yup.object().shape({
+  delivery_customerName: deliveryCustomerNameValidation,
+  delivery_phoneNo: deliveryPhoneNoValidation,
+  delivery_addressLine1: deliveryAddressLine1Validation
+});
 export const DeliveryNewAddressWrap = withFormik({
+  validationSchema,
+  //validateOnChange: false,//可以關掉change時驗證
+  //validateOnBlur: false,//可以關掉blur時驗證
   mapPropsToValues: () => ({
     delivery_customerTitle: 0,
     delivery_customerName: "",
