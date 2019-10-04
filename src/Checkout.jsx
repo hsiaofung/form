@@ -4,7 +4,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 
 import React, { Component } from 'react'
-import DeliveryNewAddressWrap from './DeliveryNewAddressWrap'
+import {DeliveryNewAddressWrap} from './DeliveryNewAddressWrap'
 import DeliveryDetailsWrap from './DeliveryDetailsWrap'
 import { Formik, Field } from "formik";
 
@@ -331,9 +331,10 @@ export default class Checkout extends Component {
 
 
                             <div className="delivery_wrap">                                
-                                {/* <DeliveryDetailsWrap />     */}
-                                <Formik component={DeliveryDetailsWrap} />                                   
-                                <DeliveryNewAddressWrap />                         
+                                <DeliveryDetailsWrap />                                    
+                                <DeliveryNewAddressWrap submit={async (values)=>{
+                                    console.log('values', values)
+                                }}/>                         
                             </div>
 
 
