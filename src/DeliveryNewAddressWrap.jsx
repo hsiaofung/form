@@ -27,14 +27,21 @@ class DeliveryNewAddress extends Component {
                     value={values.delivery_customerTitle}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    class={
+                      touched.delivery_customerTitle &&
+                      errors.delivery_customerTitle
+                        ? "error"
+                        : ""
+                    }
                   >
-                    <option value="0">稱謂*</option>
+                    <option value="">稱謂*</option>
                     <option value="ms">女士</option>
                     <option value="mr">先生</option>
                     <option value="mrs">太太</option>
                     <option value="miss">小姐</option>
                   </select>
-                  <span className="text-error">必須選取一個項目</span>
+                  <ErrorMessage name="delivery_customerTitle" />
+                  {/* <span className="text-error">必須選取一個項目</span> */}
                 </p>
               </div>
               <div className="widerInput_wrap">
@@ -78,7 +85,7 @@ class DeliveryNewAddress extends Component {
                     <option value="+852">+852</option>
                     <option value="+86">+86</option>
                   </select>
-                  <span className="text-error">必須選取一個項目</span>
+                  {/* <span className="text-error">必須選取一個項目</span> */}
                 </p>
               </div>
               <div className="widerInput_wrap">
@@ -177,7 +184,9 @@ const addressNoNotLongEnough = (
   <span className="text-error">必須填寫大於8個字</span>
 );
 const required = <span className="text-error">必須填寫</span>;
+const requiredSelect = <span className="text-error">必須選取一個項目</span>;
 
+const deliveryCustomerTitle = yup.string().required(requiredSelect);
 const deliveryCustomerNameValidation = yup
   .string()
   .min(3, customerNameNotLongEnough)
@@ -197,6 +206,7 @@ const deliveryAddressLine1Validation = yup
   .required(required);
 
 const validationSchema = yup.object().shape({
+  delivery_customerTitle: deliveryCustomerTitle,
   delivery_customerName: deliveryCustomerNameValidation,
   delivery_phoneNo: deliveryPhoneNoValidation,
   delivery_addressLine1: deliveryAddressLine1Validation
@@ -206,7 +216,7 @@ export const DeliveryNewAddressWrap = withFormik({
   //validateOnChange: false,//可以關掉change時驗證
   //validateOnBlur: false,//可以關掉blur時驗證
   mapPropsToValues: () => ({
-    delivery_customerTitle: 0,
+    delivery_customerTitle: "",
     delivery_customerName: "",
     delivery_phoneCode: "+852",
     delivery_phoneNo: "",
