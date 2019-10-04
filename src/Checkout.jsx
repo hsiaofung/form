@@ -4,6 +4,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 
 import React, { Component } from 'react'
+import DeliveryNewAddressWrap from './DeliveryNewAddressWrap'
+import DeliveryDetailsWrap from './DeliveryDetailsWrap'
 
 
 export default class Checkout extends Component {
@@ -187,7 +189,7 @@ export default class Checkout extends Component {
                             </div>
 
                             <div className="buttons_wrap">
-                                <a className="blockBtn goSectBtn" data-gosect=".chectout_deliver" href="">下一步</a>
+                                <a className="blockBtn goSectBtn" data-gosect=".chectout_deliver" href="javascript:void(0)">下一步</a>
                             </div>
 
                             <div className="buttons_wrap">
@@ -320,146 +322,17 @@ export default class Checkout extends Component {
                                 </div>
                                 <div className="buttons_wrap">
                                     <div>
-                                        <a className="blockBtn grey goSectBtn" data-gosect=".chectout_pdts" href="">返回</a>
-                                        <a className="blockBtn goSectBtn" data-gosect=".chectout_payment" href="">下一步</a>
+                                        <a className="blockBtn grey goSectBtn" data-gosect=".chectout_pdts" href="javascript:void(0)">返回</a>
+                                        <a className="blockBtn goSectBtn" data-gosect=".chectout_payment" href="javascript:void(0)">下一步</a>
                                     </div>
                                 </div>
 
                             </div>
 
 
-                            <div className="delivery_wrap">
-                                <div className="delivery_newAddress_wrap">
-                                    <div className="subtitle subtitle_sect">送貨地址</div>
-                                    <div className="delivery_addressForm_wrap">
-                                        <div className="row no-gutters with-gaps">
-                                            <div className="col-12 col-md-6 clearfix">
-                                                <div className="narrowerInput_wrap">
-                                                    <p>
-                                                        <select id="delivery_customerTitle" name="delivery" required >
-                                                            <option value="0">稱謂*</option>
-                                                            <option value="ms">女士</option>
-                                                            <option value="mr">先生</option>
-                                                            <option value="mrs">太太</option>
-                                                            <option value="miss">小姐</option>
-                                                        </select>
-                                                        <span className="text-error">必須選取一個項目</span>
-                                                    </p>                                                    
-                                                </div>
-                                                <div className="widerInput_wrap">
-                                                    <p>
-                                                        <input type="text" id="delivery_customerName" name="delivery_customerName" placeholder="姓名*" required />
-                                                        <span className="text-error">必須填寫</span>
-                                                    </p>                                                    
-                                                </div>
-                                            </div>
-                                            <div className="col-12 col-md-6 clearfix">  
-                                                <div className="narrowerInput_wrap">
-                                                    <p>
-                                                        <select id="delivery_phoneCode" name="delivery_phoneCode" className="narrowerInput" required >
-                                                            <option value="+852">+852</option>
-                                                            <option value="+86">+86</option>
-                                                        </select>
-                                                        <span className="text-error">必須選取一個項目</span>
-                                                    </p>                                                    
-                                                </div>
-                                                <div className="widerInput_wrap">
-                                                    <p>
-                                                        <input type="text" id="delivery_phoneNo" name="delivery_phoneNo" placeholder="電話號碼*" required />
-                                                        <span className="text-error">必須填寫</span>
-                                                    </p>                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p>
-                                            <input type="text" id="delivery_addressLine1" name="delivery_addressLine1" placeholder="地址1*" required />
-                                            <span className="text-error">必須填寫</span>
-                                        </p>
-                                        <p>
-                                            <input type="text" id="delivery_addressLine1" name="delivery_addressLine1" placeholder="地址2" required />
-                                        </p>
-                                        <div className="row no-gutters with-gaps">
-                                            <div className="col-12 col-md-6">
-                                                <p>
-                                                    <select id="delivery_area" name="delivery_area" className="narrowerInput" required >
-                                                        <option value="HK">香港</option>
-                                                        <option value="CN">中國大陸</option>
-                                                        <option value="AU">澳洲</option>
-                                                        <option value="AT">奧地利</option>
-                                                        <option value="BE">比利時</option>
-                                                     </select>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="buttons_wrap">         
-                                        <div><a id="cancelSaveAdd_btn" className="blockBtn grey" href="">取消</a><a id="saveAdd_btn" className="blockBtn" href="">儲存地址</a></div>
-                                    </div>
-                                </div>
-
-                                <div className="delivery_details_wrap">
-                                    <div className="row no-gutters with-gaps">
-                                        <div className="col-12 col-md-6">
-                                            <div className="part">
-                                                <div className="subtitle_withLine_wrap">
-                                                    <p className="subtitle shorter subtitle_sect">送貨地址</p>
-                                                    <hr />
-                                                </div>
-                                                <div className="radioBtns_wrap vertical">
-                                                    <ul>
-                                                        <li>
-                                                            <input type="radio" id="delivery_address1" name="delivery_address_radioGrp" checked />
-                                                            <label for="delivery_address1">LANCE,15629124552<br/>LA, 90001<br/>Los Angeles, CA, 美國</label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div>
-                                                    <a id="newAdd_btn" className="content-link" href="">＋新增地址</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-6">
-                                            <div className="part">
-                                                <div className="subtitle_withLine_wrap">
-                                                    <p className="subtitle shorter subtitle_sect">運送模式</p>
-                                                    <hr />
-                                                </div>
-                                                <div className="radioBtns_wrap vertical">
-                                                    <ul>
-                                                        <li>
-                                                            <input type="radio" id="delivery_mode1" name="delivery_mode_radioGrp" checked />
-                                                            <label for="delivery_mode1">優先送递 (3-5天)</label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div className="part">
-                                                <div className="subtitle_withLine_wrap">
-                                                    <p className="subtitle shorter subtitle_sect">稅項及關稅（如適用）</p>
-                                                    <hr />
-                                                </div>
-                                                <div className="radioBtns_wrap vertical">
-                                                    <ul>
-                                                        <li>
-                                                            <input type="radio" id="delivery_taxPay1" name="delivery_taxPay_radioGrp" checked />
-                                                            <label for="delivery_taxPay1">收件者支付</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="radio" id="delivery_taxPay2" name="delivery_taxPay_radioGrp"/>
-                                                            <label for="delivery_taxPay2">寄件者預繳</label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="buttons_wrap">
-                                        <div>
-                                            <a className="blockBtn grey goSectBtn" data-gosect=".chectout_pdts" href="">返回</a>
-                                            <a className="blockBtn goSectBtn" data-gosect=".chectout_payment" href="">下一步</a>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="delivery_wrap">                                
+                                <DeliveryDetailsWrap />    
+                                <DeliveryNewAddressWrap />                         
                             </div>
 
 
@@ -531,7 +404,7 @@ export default class Checkout extends Component {
 
                             <div className="buttons_wrap">
                                 <div>
-                                    <a className="blockBtn grey goSectBtn" data-gosect=".chectout_deliver" href="">返回</a>
+                                    <a className="blockBtn grey goSectBtn" data-gosect=".chectout_deliver" href="javascript:void(0)">返回</a>
                                     <a className="blockBtn" href="checkout-result.html">立即購買</a>
                                 </div>
                             </div>
