@@ -176,6 +176,10 @@ class DeliveryNewAddress extends Component {
     );
   }
 }
+//正則式
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+//錯誤訊息
 const customerNameNotLongEnough = (
   <span className="text-error">必須填寫大於3個字</span>
 );
@@ -186,6 +190,7 @@ const addressNoNotLongEnough = (
 const required = <span className="text-error">必須填寫</span>;
 const requiredSelect = <span className="text-error">必須選取一個項目</span>;
 
+//驗證規則
 const deliveryCustomerTitle = yup.string().required(requiredSelect);
 const deliveryCustomerNameValidation = yup
   .string()
@@ -193,7 +198,6 @@ const deliveryCustomerNameValidation = yup
   .max(255)
   .required(required);
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 const deliveryPhoneNoValidation = yup
   .string()
   .matches(phoneRegExp, invalidPhoneNo)
