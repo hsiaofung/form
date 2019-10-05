@@ -8,6 +8,8 @@ import {DeliveryNewAddressWrap} from './DeliveryNewAddressWrap'
 import DeliveryDetailsWrap from './DeliveryDetailsWrap'
 import { Formik, Field } from "formik";
 
+let $ = window.$;
+
 export default class Checkout extends Component {
     render() {
         return (
@@ -334,6 +336,9 @@ export default class Checkout extends Component {
                                 <DeliveryDetailsWrap />                                    
                                 <DeliveryNewAddressWrap submit={async (values)=>{
                                     console.log('values', values)
+                                     //配送選擇 - 送貨服務 - 儲存地址
+                                     $(".chectout_sect .delivery_newAddress_wrap").slideUp();
+                                     $(".chectout_sect .delivery_details_wrap").slideDown();
                                 }}/>                         
                             </div>
 

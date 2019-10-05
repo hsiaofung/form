@@ -139,15 +139,7 @@
       } else {
         $(".chectout_sect .pickup_wrap .store_details").slideDown();
       }
-    });
-
-    //配送選擇 - 送貨服務 - 儲存地址
-    $("#saveAdd_btn").on("click", function() {
-      //if( checked input valid ){
-      $(".chectout_sect .delivery_newAddress_wrap").slideUp();
-      $(".chectout_sect .delivery_details_wrap").slideDown();
-      //}
-    });
+    });   
 
     //配送選擇 - 送貨服務 - 新增地址
     $("#newAdd_btn").on("click", function() {
