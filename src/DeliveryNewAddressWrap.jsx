@@ -219,14 +219,14 @@ export const DeliveryNewAddressWrap = withFormik({
   validationSchema,
   //validateOnChange: false,//可以關掉change時驗證
   //validateOnBlur: false,//可以關掉blur時驗證
-  mapPropsToValues: () => ({
-    delivery_customerTitle: "",
-    delivery_customerName: "",
-    delivery_phoneCode: "+852",
-    delivery_phoneNo: "",
-    delivery_addressLine1: "",
-    delivery_addressLine2: "",
-    delivery_area: "HK"
+  mapPropsToValues: props => ({
+    delivery_customerTitle: props.delivery_customerTitle,
+    delivery_customerName: props.delivery_customerName,
+    delivery_phoneCode: props.delivery_phoneCode,
+    delivery_phoneNo: props.delivery_phoneNo,
+    delivery_addressLine1: props.delivery_addressLine1,
+    delivery_addressLine2: props.delivery_addressLine2,
+    delivery_area: props.delivery_area
   }),
   handleSubmit: async (values, { props, setErrors, setSubmitting }) => {
     const errors = await props.submit(values);

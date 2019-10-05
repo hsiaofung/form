@@ -334,7 +334,9 @@ export default class Checkout extends Component {
 
                             <div className="delivery_wrap">                                
                                 <DeliveryDetailsWrap />                                    
-                                <DeliveryNewAddressWrap submit={async (values)=>{
+                                <DeliveryNewAddressWrap 
+                                  delivery_customerName="AAA"
+                                  submit={async (values)=>{
                                     console.log('values', values)
                                      //配送選擇 - 送貨服務 - 儲存地址
                                      $(".chectout_sect .delivery_newAddress_wrap").slideUp();
