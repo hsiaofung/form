@@ -335,7 +335,13 @@ export default class Checkout extends Component {
                             <div className="delivery_wrap">                                
                                 <DeliveryDetailsWrap />                                    
                                 <DeliveryNewAddressWrap 
-                                  delivery_customerName="AAA"
+                                  delivery_customerTitle={this.state.isNewAddr?　"":editAddr.customerTitle}
+                                  delivery_customerName={this.state.isNewAddr?　"":editAddr.customerName}
+                                  delivery_phoneCode={this.state.isNewAddr?　"":editAddr.phoneCode}
+                                  delivery_phoneNo={this.state.isNewAddr?　"":editAddr.phoneNo}
+                                  delivery_addressLine1={this.state.isNewAddr?　"":editAddr.addressLine1}
+                                  delivery_addressLine2={this.state.isNewAddr?　"":editAddr.addressLine2}
+                                  delivery_area={this.state.isNewAddr?　"":editAddr.area}
                                   submit={async (values)=>{
                                     console.log('values', values)
                                      //配送選擇 - 送貨服務 - 儲存地址
