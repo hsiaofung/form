@@ -217,6 +217,7 @@ const validationSchema = yup.object().shape({
 });
 export const DeliveryNewAddressWrap = withFormik({
   validationSchema,
+  enableReinitialize: true, //當props更新時, 是否要reset form
   //validateOnChange: false,//可以關掉change時驗證
   //validateOnBlur: false,//可以關掉blur時驗證
   mapPropsToValues: props => ({
