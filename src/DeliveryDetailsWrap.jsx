@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 export default class DeliveryDetailsWrap extends Component {
   render() {
+    const { clickNewAddrBtn, clickEditAddrBtn } = this.props;
     return (
       <div className="delivery_details_wrap">
         <div className="row no-gutters with-gaps">
@@ -27,6 +28,7 @@ export default class DeliveryDetailsWrap extends Component {
                       <br />
                       Los Angeles, CA, 美國
                     </label>
+                    <span onClick={clickEditAddrBtn}>修改</span>
                   </li>
                 </ul>
               </div>
@@ -35,6 +37,7 @@ export default class DeliveryDetailsWrap extends Component {
                   id="newAdd_btn"
                   className="content-link"
                   href="javascript:void(0)"
+                  onClick={clickNewAddrBtn}
                 >
                   ＋新增地址
                 </a>

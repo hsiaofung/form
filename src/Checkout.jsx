@@ -11,7 +11,20 @@ import { Formik, Field } from "formik";
 let $ = window.$;
 
 export default class Checkout extends Component {
+    state={
+        editAddr:{
+            customerTitle:"",
+            customerName:"aaaa",
+            phoneCode:"",
+            phoneNo:"123456789",
+            addressLine1:"bbbbb",
+            addressLine2:"ccccc",
+            area:""
+        },
+        isNewAddr:true
+    }
     render() {
+        const {isNewAddr, editAddr} = this.state;
         return (
             <div className="pageContent_wrap">
 
@@ -333,15 +346,45 @@ export default class Checkout extends Component {
 
 
                             <div className="delivery_wrap">                                
-                                <DeliveryDetailsWrap />                                    
+                                <DeliveryDetailsWrap 
+                                   clickNewAddrBtn={()=>{
+                                        this.setState({
+                                            ...this.state,
+                                            isNewAddr:true
+                                        }) 
+                                        //配送選擇 - 送貨服務 - 新增地址                                       
+                                        $("#cancelSaveAdd_btn").show();
+                                        $(".chectout_sect .delivery_newAddress_wrap").slideDown();
+                                        $(".chectout_sect .delivery_details_wrap").slideUp();
+                                   }}
+                                   clickEditAddrBtn={async ()=>{
+                                      await this.setState({
+                                          ...this.state,
+                                          isNewAddr:false,
+                                          editAddr:{
+                                              ...editAddr,
+                                              customerName:'PPPP'
+                                          }
+                                      })
+                                      //配送選擇 - 送貨服務 - 修改地址                                       
+                                      $(document).ready(function(){
+                                        $("#cancelSaveAdd_btn").show();
+                                        $(".chectout_sect .delivery_newAddress_wrap").slideDown();
+                                        $(".chectout_sect .delivery_details_wrap").slideUp();
+                                      })
+                                       
+                                       await console.log('AAA', this.state)
+                                   }}
+                                />
+                                {console.log('BBB', this.state)}                                    
                                 <DeliveryNewAddressWrap 
-                                  delivery_customerTitle={this.state.isNewAddr?　"":editAddr.customerTitle}
-                                  delivery_customerName={this.state.isNewAddr?　"":editAddr.customerName}
-                                  delivery_phoneCode={this.state.isNewAddr?　"":editAddr.phoneCode}
-                                  delivery_phoneNo={this.state.isNewAddr?　"":editAddr.phoneNo}
-                                  delivery_addressLine1={this.state.isNewAddr?　"":editAddr.addressLine1}
-                                  delivery_addressLine2={this.state.isNewAddr?　"":editAddr.addressLine2}
-                                  delivery_area={this.state.isNewAddr?　"":editAddr.area}
+                                  delivery_customerTitle={isNewAddr?　"":editAddr.customerTitle}
+                                  delivery_customerName={isNewAddr?　"":editAddr.customerName}
+                                  delivery_phoneCode={isNewAddr?　"":editAddr.phoneCode}
+                                  delivery_phoneNo={isNewAddr?　"":editAddr.phoneNo}
+                                  delivery_addressLine1={isNewAddr?　"":editAddr.addressLine1}
+                                  delivery_addressLine2={isNewAddr?　"":editAddr.addressLine2}
+                                  delivery_area={isNewAddr?　"":editAddr.area}
                                   submit={async (values)=>{
                                     console.log('values', values)
                                      //配送選擇 - 送貨服務 - 儲存地址

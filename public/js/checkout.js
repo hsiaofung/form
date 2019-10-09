@@ -142,11 +142,11 @@
     });   
 
     //配送選擇 - 送貨服務 - 新增地址
-    $("#newAdd_btn").on("click", function() {
-      $("#cancelSaveAdd_btn").show();
-      $(".chectout_sect .delivery_newAddress_wrap").slideDown();
-      $(".chectout_sect .delivery_details_wrap").slideUp();
-    });
+    // $("#newAdd_btn").on("click", function() {
+    //   $("#cancelSaveAdd_btn").show();
+    //   $(".chectout_sect .delivery_newAddress_wrap").slideDown();
+    //   $(".chectout_sect .delivery_details_wrap").slideUp();
+    // });
 
     //配送選擇 - 送貨服務 - 取消 新增地址
     $("#cancelSaveAdd_btn").on("click", function() {
