@@ -10,7 +10,8 @@ class DeliveryDetails extends Component {
       handleBlur,
       handleSubmit,
       touched,
-      errorsclickNewAddrBtn,
+      errors,
+      clickNewAddrBtn,
       clickEditAddrBtn
     } = this.props;
     return (
@@ -30,6 +31,9 @@ class DeliveryDetails extends Component {
                       id="delivery_address1"
                       name="delivery_address_radioGrp"
                       checked
+                      value={"1001"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
                     <label for="delivery_address1">
                       LANCE,15629124552
@@ -45,7 +49,9 @@ class DeliveryDetails extends Component {
                       type="radio"
                       id="delivery_address2"
                       name="delivery_address_radioGrp"
-                      checked
+                      value={"1002"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
                     <label for="delivery_address2">
                       楊過,123456789
