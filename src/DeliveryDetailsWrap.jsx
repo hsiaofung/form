@@ -1,8 +1,18 @@
 import React, { Component } from "react";
+import { Formik, Field, withFormik, ErrorMessage } from "formik";
+import * as yup from "yup";
 
-export default class DeliveryDetailsWrap extends Component {
+class DeliveryDetails extends Component {
   render() {
-    const { clickNewAddrBtn, clickEditAddrBtn } = this.props;
+    const {
+      values,
+      handleChange,
+      handleBlur,
+      handleSubmit,
+      touched,
+      errorsclickNewAddrBtn,
+      clickEditAddrBtn
+    } = this.props;
     return (
       <div className="delivery_details_wrap">
         <div className="row no-gutters with-gaps">
@@ -27,6 +37,22 @@ export default class DeliveryDetailsWrap extends Component {
                       LA, 90001
                       <br />
                       Los Angeles, CA, 美國
+                    </label>
+                    <span onClick={clickEditAddrBtn}>修改</span>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      id="delivery_address2"
+                      name="delivery_address_radioGrp"
+                      checked
+                    />
+                    <label for="delivery_address2">
+                      楊過,123456789
+                      <br />
+                      LA, 90001
+                      <br />
+                      Los Angeles, 安徽, 中國
                     </label>
                     <span onClick={clickEditAddrBtn}>修改</span>
                   </li>
@@ -108,6 +134,7 @@ export default class DeliveryDetailsWrap extends Component {
               className="blockBtn goSectBtn"
               data-gosect=".chectout_payment"
               href="javascript:void(0)"
+              onClick={handleSubmit}
             >
               下一步
             </a>
@@ -117,3 +144,15 @@ export default class DeliveryDetailsWrap extends Component {
     );
   }
 }
+
+export const DeliveryDetailsWrap = withFormik({
+  mapPropsToValues: props => ({
+    delivery_address_radioGrp: props.delivery_address_radioGrp
+  }),
+  handleSubmit: async (values, { props, setErrors, setSubmitting }) => {
+    const errors = await props.submit(values);
+    if (errors) {
+      setErrors(errors);
+    }
+  }
+})(DeliveryDetails);

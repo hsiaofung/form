@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react'
 import {DeliveryNewAddressWrap} from './DeliveryNewAddressWrap'
-import DeliveryDetailsWrap from './DeliveryDetailsWrap'
+import {DeliveryDetailsWrap} from './DeliveryDetailsWrap'
 import { Formik, Field } from "formik";
 
 let $ = window.$;
@@ -374,6 +374,9 @@ export default class Checkout extends Component {
                                       })
                                        
                                        await console.log('AAA', this.state)
+                                   }}
+                                   submit={async (values)=>{
+                                       console.log('values', values)
                                    }}
                                 />
                                 {console.log('BBB', this.state)}                                    
