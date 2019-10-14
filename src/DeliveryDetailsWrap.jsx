@@ -68,6 +68,7 @@ class DeliveryDetails extends Component {
                     <span onClick={clickEditAddrBtn}>修改</span>
                   </li>
                 </ul>
+                <ErrorMessage name="delivery_address_radioGrp" />
               </div>
               <div>
                 <a
@@ -104,6 +105,7 @@ class DeliveryDetails extends Component {
                     <label for="delivery_mode1">優先送递 (3-5天)</label>
                   </li>
                 </ul>
+                <ErrorMessage name="delivery_mode_radioGrp" />
               </div>
             </div>
             <div className="part">
@@ -144,6 +146,7 @@ class DeliveryDetails extends Component {
                     <label for="delivery_taxPay2">寄件者預繳</label>
                   </li>
                 </ul>
+                <ErrorMessage name="delivery_taxPay_radioGrp" />
               </div>
             </div>
           </div>
@@ -171,8 +174,20 @@ class DeliveryDetails extends Component {
     );
   }
 }
+//錯誤訊息
+const requiredSelect = <span className="text-error">必須選取一個項目</span>;
+//驗證規則
+const deliveryAddressRadioGrp = yup.string().required(requiredSelect);
+const deliveryModeRadioGrp = yup.string().required(requiredSelect);
+const deliveryTaxPayRadioGrp = yup.string().required(requiredSelect);
 
+const validationSchema = yup.object().shape({
+  delivery_address_radioGrp: deliveryAddressRadioGrp,
+  delivery_mode_radioGrp: deliveryModeRadioGrp,
+  delivery_taxPay_radioGrp: deliveryTaxPayRadioGrp
+});
 export const DeliveryDetailsWrap = withFormik({
+  validationSchema,
   mapPropsToValues: props => ({
     delivery_address_radioGrp: props.delivery_address_radioGrp,
     delivery_mode_radioGrp: props.delivery_mode_radioGrp,

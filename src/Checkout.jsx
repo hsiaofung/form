@@ -347,6 +347,9 @@ export default class Checkout extends Component {
 
                             <div className="delivery_wrap">                                
                                 <DeliveryDetailsWrap 
+                                // delivery_address_radioGrp={"delivery_address1"}
+                                // delivery_mode_radioGrp={"delivery_mode1"}
+                                // delivery_taxPay_radioGrp={"delivery_taxPay1"}
                                    clickNewAddrBtn={()=>{
                                         this.setState({
                                             ...this.state,
