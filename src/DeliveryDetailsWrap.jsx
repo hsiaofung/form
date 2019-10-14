@@ -30,8 +30,10 @@ class DeliveryDetails extends Component {
                       type="radio"
                       id="delivery_address1"
                       name="delivery_address_radioGrp"
-                      checked
-                      value={"1001"}
+                      checked={
+                        values.delivery_address_radioGrp === "delivery_address1"
+                      }
+                      value={"delivery_address1"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -49,7 +51,10 @@ class DeliveryDetails extends Component {
                       type="radio"
                       id="delivery_address2"
                       name="delivery_address_radioGrp"
-                      value={"1002"}
+                      checked={
+                        values.delivery_address_radioGrp === "delivery_address2"
+                      }
+                      value={"delivery_address2"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
@@ -89,7 +94,12 @@ class DeliveryDetails extends Component {
                       type="radio"
                       id="delivery_mode1"
                       name="delivery_mode_radioGrp"
-                      checked
+                      value={"delivery_mode1"}
+                      checked={
+                        values.delivery_mode_radioGrp === "delivery_mode1"
+                      }
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
                     <label for="delivery_mode1">優先送递 (3-5天)</label>
                   </li>
@@ -110,7 +120,12 @@ class DeliveryDetails extends Component {
                       type="radio"
                       id="delivery_taxPay1"
                       name="delivery_taxPay_radioGrp"
-                      checked
+                      value="delivery_taxPay1"
+                      checked={
+                        values.delivery_taxPay_radioGrp === "delivery_taxPay1"
+                      }
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
                     <label for="delivery_taxPay1">收件者支付</label>
                   </li>
@@ -118,7 +133,13 @@ class DeliveryDetails extends Component {
                     <input
                       type="radio"
                       id="delivery_taxPay2"
+                      checked={
+                        values.delivery_taxPay_radioGrp === "delivery_taxPay2"
+                      }
                       name="delivery_taxPay_radioGrp"
+                      value="delivery_taxPay2"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
                     <label for="delivery_taxPay2">寄件者預繳</label>
                   </li>
@@ -153,7 +174,9 @@ class DeliveryDetails extends Component {
 
 export const DeliveryDetailsWrap = withFormik({
   mapPropsToValues: props => ({
-    delivery_address_radioGrp: props.delivery_address_radioGrp
+    delivery_address_radioGrp: props.delivery_address_radioGrp,
+    delivery_mode_radioGrp: props.delivery_mode_radioGrp,
+    delivery_taxPay_radioGrp: props.delivery_taxPay_radioGrp
   }),
   handleSubmit: async (values, { props, setErrors, setSubmitting }) => {
     const errors = await props.submit(values);
