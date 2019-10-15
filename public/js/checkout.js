@@ -34,50 +34,50 @@
     });
 
     // 返回 / 下一步
-    $(document).on("click", ".goSectBtn", function() {
-      var $chectout_sect;
-      //if( checked this section is Valid ){
+    // $(document).on("click", ".goSectBtn", function() {
+    //   var $chectout_sect;
+    //   //if( checked this section is Valid ){
 
-      $chectout_sect = $(this).closest(".chectout_sect");
-      $chectout_sect.removeClass("opened");
-      $chectout_sect.addClass("filled");
-      if ($chectout_sect.hasClass("chectout_pdts")) {
-        $(".sidebar_forSticky .checkout_discountCode_wrap").fadeOut(
-          300,
-          function() {
-            stickySidebar.updateSticky();
-          }
-        );
-      }
+    //   $chectout_sect = $(this).closest(".chectout_sect");
+    //   $chectout_sect.removeClass("opened");
+    //   $chectout_sect.addClass("filled");
+    //   if ($chectout_sect.hasClass("chectout_pdts")) {
+    //     $(".sidebar_forSticky .checkout_discountCode_wrap").fadeOut(
+    //       300,
+    //       function() {
+    //         stickySidebar.updateSticky();
+    //       }
+    //     );
+    //   }
 
-      var goSect = $(this).attr("data-gosect");
-      $(goSect).addClass("opened");
+    //   var goSect = $(this).attr("data-gosect");
+    //   $(goSect).addClass("opened");
 
-      $(goSect)
-        .children(".sectContent")
-        .slideDown(300);
-      if ($(goSect).hasClass("chectout_pdts")) {
-        $(".sidebar_forSticky .checkout_discountCode_wrap").fadeIn(
-          300,
-          function() {
-            stickySidebar.updateSticky();
-          }
-        );
-      }
+    //   $(goSect)
+    //     .children(".sectContent")
+    //     .slideDown(300);
+    //   if ($(goSect).hasClass("chectout_pdts")) {
+    //     $(".sidebar_forSticky .checkout_discountCode_wrap").fadeIn(
+    //       300,
+    //       function() {
+    //         stickySidebar.updateSticky();
+    //       }
+    //     );
+    //   }
 
-      $chectout_sect.children(".sectContent").slideUp(300, function() {
-        $("html, body").animate(
-          { scrollTop: $(goSect).offset().top - 100 },
-          300
-        ); //100 is manual number, should check height dynmically in desktop/mobile
-      });
-      //100 ~= ( $( "header .nav_wrap_m" ).outerHeight() + 30)
-      // minized menu in desktop is 1.5rem+1.25rem+1.875rem
+    //   $chectout_sect.children(".sectContent").slideUp(300, function() {
+    //     $("html, body").animate(
+    //       { scrollTop: $(goSect).offset().top - 100 },
+    //       300
+    //     ); //100 is manual number, should check height dynmically in desktop/mobile
+    //   });
+    //   //100 ~= ( $( "header .nav_wrap_m" ).outerHeight() + 30)
+    //   // minized menu in desktop is 1.5rem+1.25rem+1.875rem
 
-      //}else{
-      //$chectout_sect.removeClass("filled");
-      //}
-    });
+    //   //}else{
+    //   //$chectout_sect.removeClass("filled");
+    //   //}
+    // });
 
     function checkBag() {
       $(".chectout_pdts .shoppingBagNum").text(
@@ -139,7 +139,7 @@
       } else {
         $(".chectout_sect .pickup_wrap .store_details").slideDown();
       }
-    });   
+    });
 
     //配送選擇 - 送貨服務 - 新增地址
     // $("#newAdd_btn").on("click", function() {

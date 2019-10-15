@@ -23,6 +23,16 @@ export default class Checkout extends Component {
         },
         isNewAddr:true
     }
+    goSection(e){        
+        var chectout_sect = $(e.target).closest(".chectout_sect");
+        var goSect = $(e.target).attr("data-gosect");                                    
+
+        $(chectout_sect).removeClass("opened");
+        $(chectout_sect).addClass("filled");                                                                        
+        $( goSect ).addClass("opened");
+        $( goSect ).children(".sectContent").slideDown(300);
+        $(chectout_sect).children(".sectContent").slideUp(300)
+    }
     render() {
         const {isNewAddr, editAddr} = this.state;
         return (
@@ -204,7 +214,9 @@ export default class Checkout extends Component {
                             </div>
 
                             <div className="buttons_wrap">
-                                <a className="blockBtn goSectBtn" data-gosect=".chectout_deliver" href="javascript:void(0)">下一步</a>
+                                <a className="blockBtn goSectBtn" data-gosect=".chectout_deliver" href="javascript:void(0)" onClick={(e)=>this.goSection(e)}>
+                                    下一步
+                                </a>
                             </div>
 
                             <div className="buttons_wrap">
@@ -374,15 +386,19 @@ export default class Checkout extends Component {
                                         $("#cancelSaveAdd_btn").show();
                                         $(".chectout_sect .delivery_newAddress_wrap").slideDown();
                                         $(".chectout_sect .delivery_details_wrap").slideUp();
-                                      })
+                                      })                                       
                                        
-                                       await console.log('AAA', this.state)
                                    }}
                                    submit={async (values)=>{
                                        console.log('values', values)
+                                        //配送選擇 - 送貨服務 - 下一步                                                                             
+                                        $('.chectout_deliver').removeClass("opened");
+                                        $('.chectout_deliver').addClass("filled");    
+                                        $('.chectout_payment').addClass("opened");  
+                                        $(".chectout_payment .sectContent").slideDown(300);
+                                        $(".chectout_deliver .sectContent").slideUp(300);
                                    }}
-                                />
-                                {console.log('BBB', this.state)}                                    
+                                />                                
                                 <DeliveryNewAddressWrap 
                                   delivery_customerTitle={isNewAddr?　"":editAddr.customerTitle}
                                   delivery_customerName={isNewAddr?　"":editAddr.customerName}
