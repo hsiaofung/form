@@ -19,8 +19,9 @@ const addressBook = [
       address2: "",
       city: "Los Angeles",
       postCode: "90001",
-      province: "CA",
-      country: "美國"
+      province: "CA",      
+      countryName:"美國",
+      countryCode:"US"
     },
     {
       customerTitle:"mr",
@@ -31,19 +32,20 @@ const addressBook = [
       address2: "",
       city: "書城",
       postCode: "888",
-      province: "安徽",
-      country: "中國"
+      province: "安徽",      
+      countryName:"中國",
+      countryCode:"CN"
     }
   ];
 export default class Checkout extends Component {
     state={
         editAddr:{
             customerTitle:"",
-            customerName:"aaaa",
+            customerName:"",
             phoneCode:"",
-            phoneNo:"123456789",
-            addressLine1:"bbbbb",
-            addressLine2:"ccccc",
+            phoneNo:"",
+            addressLine1:"",
+            addressLine2:"",
             area:""
         },
         isNewAddr:true
@@ -398,9 +400,8 @@ export default class Checkout extends Component {
                                         $(".chectout_sect .delivery_newAddress_wrap").slideDown();
                                         $(".chectout_sect .delivery_details_wrap").slideUp();
                                    }}
-                                   clickEditAddrBtn={async (address)=>{
-                                       console.log('PPP',address)
-                                      await this.setState({
+                                   clickEditAddrBtn={(address)=>{
+                                      this.setState({
                                           ...this.state,
                                           isNewAddr:false,
                                           editAddr:{
@@ -408,12 +409,12 @@ export default class Checkout extends Component {
                                             customerName : address.customerName,
                                             phoneCode : address.phoneCode,
                                             phoneNo : address.phoneNo,
-                                            address1 : address.address1,
-                                            address2 : address.address2,
+                                            addressLine1 : address.address1,
+                                            addressLine2 : address.address2,
                                             postCode : address.postCode,
                                             city : address.city,
                                             province : address.province,
-                                            country : address.country
+                                            area : address.countryCode
                                           }
                                       })
                                       //配送選擇 - 送貨服務 - 修改地址                                       

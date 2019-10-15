@@ -36,19 +36,19 @@ class DeliveryDetails extends Component {
                       postCode = address.postCode,
                       city = address.city,
                       province = address.province,
-                      country = address.country;
+                      country = address.countryName;
 
                     return (
                       <li>
                         <input
                           type="radio"
-                          id="delivery_address1"
+                          id={`delivery_address${index}`}
                           name="delivery_address_radioGrp"
                           checked={
                             values.delivery_address_radioGrp ===
-                            "delivery_address1"
+                            `delivery_address${index}`
                           }
-                          value={"delivery_address1"}
+                          value={`delivery_address${index}`}
                           onChange={handleChange}
                           onBlur={handleBlur}
                         />
@@ -61,7 +61,7 @@ class DeliveryDetails extends Component {
                           <br />
                           {city}, {province}, {country}
                         </label>
-                        <span onClick={address => clickEditAddrBtn(address)}>
+                        <span onClick={() => clickEditAddrBtn(address)}>
                           修改
                         </span>
                         <span onClick={clickDeleteAddrBtn}>刪除</span>
