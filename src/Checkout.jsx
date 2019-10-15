@@ -9,7 +9,32 @@ import {DeliveryDetailsWrap} from './DeliveryDetailsWrap'
 import { Formik, Field } from "formik";
 
 let $ = window.$;
-
+const addressBook = [
+    {
+      customerTitle:"ms",
+      customerName: "LANCE",
+      phoneCode: "",
+      phoneNo: "15629124552",
+      address1: "LA",
+      address2: "",
+      city: "Los Angeles",
+      postCode: "90001",
+      province: "CA",
+      country: "美國"
+    },
+    {
+      customerTitle:"mr",
+      customerName: "楊過",
+      phoneCode: "+866",
+      phoneNo: "123456789",
+      address1: "武陵街",
+      address2: "",
+      city: "書城",
+      postCode: "888",
+      province: "安徽",
+      country: "中國"
+    }
+  ];
 export default class Checkout extends Component {
     state={
         editAddr:{
@@ -362,6 +387,7 @@ export default class Checkout extends Component {
                                 // delivery_address_radioGrp={"delivery_address1"}
                                 // delivery_mode_radioGrp={"delivery_mode1"}
                                 // delivery_taxPay_radioGrp={"delivery_taxPay1"}
+                                addressBook={addressBook}
                                    clickNewAddrBtn={()=>{
                                         this.setState({
                                             ...this.state,
@@ -372,13 +398,22 @@ export default class Checkout extends Component {
                                         $(".chectout_sect .delivery_newAddress_wrap").slideDown();
                                         $(".chectout_sect .delivery_details_wrap").slideUp();
                                    }}
-                                   clickEditAddrBtn={async ()=>{
+                                   clickEditAddrBtn={async (address)=>{
+                                       console.log('PPP',address)
                                       await this.setState({
                                           ...this.state,
                                           isNewAddr:false,
                                           editAddr:{
-                                              ...editAddr,
-                                              customerName:'PPPP'
+                                            customerTitle: address.customerTitle,
+                                            customerName : address.customerName,
+                                            phoneCode : address.phoneCode,
+                                            phoneNo : address.phoneNo,
+                                            address1 : address.address1,
+                                            address2 : address.address2,
+                                            postCode : address.postCode,
+                                            city : address.city,
+                                            province : address.province,
+                                            country : address.country
                                           }
                                       })
                                       //配送選擇 - 送貨服務 - 修改地址                                       
@@ -386,9 +421,11 @@ export default class Checkout extends Component {
                                         $("#cancelSaveAdd_btn").show();
                                         $(".chectout_sect .delivery_newAddress_wrap").slideDown();
                                         $(".chectout_sect .delivery_details_wrap").slideUp();
-                                      })                                       
-                                       
+                                      })                                                                           
                                    }}
+                                   clickDeleteAddrBtn={async ()=>{
+                                       console.log('Click Delete Btn')
+                                   }}   
                                    submit={async (values)=>{
                                        console.log('values', values)
                                         //配送選擇 - 送貨服務 - 下一步                                                                             

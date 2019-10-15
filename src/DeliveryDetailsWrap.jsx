@@ -12,7 +12,9 @@ class DeliveryDetails extends Component {
       touched,
       errors,
       clickNewAddrBtn,
-      clickEditAddrBtn
+      clickEditAddrBtn,
+      clickDeleteAddrBtn,
+      addressBook
     } = this.props;
     return (
       <div className="delivery_details_wrap">
@@ -25,48 +27,47 @@ class DeliveryDetails extends Component {
               </div>
               <div className="radioBtns_wrap vertical">
                 <ul>
-                  <li>
-                    <input
-                      type="radio"
-                      id="delivery_address1"
-                      name="delivery_address_radioGrp"
-                      checked={
-                        values.delivery_address_radioGrp === "delivery_address1"
-                      }
-                      value={"delivery_address1"}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <label for="delivery_address1">
-                      LANCE,15629124552
-                      <br />
-                      LA, 90001
-                      <br />
-                      Los Angeles, CA, 美國
-                    </label>
-                    <span onClick={clickEditAddrBtn}>修改</span>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      id="delivery_address2"
-                      name="delivery_address_radioGrp"
-                      checked={
-                        values.delivery_address_radioGrp === "delivery_address2"
-                      }
-                      value={"delivery_address2"}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                    <label for="delivery_address2">
-                      楊過,123456789
-                      <br />
-                      LA, 90001
-                      <br />
-                      Los Angeles, 安徽, 中國
-                    </label>
-                    <span onClick={clickEditAddrBtn}>修改</span>
-                  </li>
+                  {addressBook.map((address, index) => {
+                    const customerName = address.customerName,
+                      phoneCode = address.phoneCode,
+                      phoneNo = address.phoneNo,
+                      address1 = address.address1,
+                      address2 = address.address2,
+                      postCode = address.postCode,
+                      city = address.city,
+                      province = address.province,
+                      country = address.country;
+
+                    return (
+                      <li>
+                        <input
+                          type="radio"
+                          id="delivery_address1"
+                          name="delivery_address_radioGrp"
+                          checked={
+                            values.delivery_address_radioGrp ===
+                            "delivery_address1"
+                          }
+                          value={"delivery_address1"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                        <label for={`delivery_address${index}`}>
+                          {customerName},{phoneCode}
+                          {phoneNo}
+                          <br />
+                          {address1}
+                          {address2}, {postCode}
+                          <br />
+                          {city}, {province}, {country}
+                        </label>
+                        <span onClick={address => clickEditAddrBtn(address)}>
+                          修改
+                        </span>
+                        <span onClick={clickDeleteAddrBtn}>刪除</span>
+                      </li>
+                    );
+                  })}
                 </ul>
                 <ErrorMessage name="delivery_address_radioGrp" />
               </div>
