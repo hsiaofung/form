@@ -14,34 +14,6 @@ const api={
     addressbook:`${HOST_URL}/shopping/v1/customers/addressbook`
 }
 
-// const addressBook = [
-//     {
-//       customerTitle:"ms",
-//       customerName: "LANCE",
-//       phoneCode: "",
-//       phoneNo: "15629124552",
-//       address1: "LA",
-//       address2: "",
-//       city: "Los Angeles",
-//       postCode: "90001",
-//       province: "CA",      
-//       countryName:"美國",
-//       countryCode:"US"
-//     },
-//     {
-//       customerTitle:"mr",
-//       customerName: "楊過",
-//       phoneCode: "+866",
-//       phoneNo: "123456789",
-//       address1: "武陵街",
-//       address2: "",
-//       city: "書城",
-//       postCode: "888",
-//       province: "安徽",      
-//       countryName:"中國",
-//       countryCode:"CN"
-//     }
-//   ];
 export default class Checkout extends Component {
     state={
         addressBook:[],
@@ -59,14 +31,17 @@ export default class Checkout extends Component {
             //要傳遞id來做地址更新
             id: ""
           },
-        isNewAddr:true
+        isNewAddr:true,
+        deliveryAddrId:null,//此欄位empty必須設null
+        deliveryMode:"delivery_mode1",
+        deliveryTaxPay:"delivery_taxPay1"
     }
     //載入addressbook
     async fetchAddressbook(){
         const res = await fetch(api.addressbook)    
         const data = await res.json()
         
-        this.setState({
+        await this.setState({
             ...this.state,
             addressBook:data
         })
@@ -97,8 +72,15 @@ export default class Checkout extends Component {
     async deleteAddress(id){
         await fetch(`${api.addressbook}/${id}`,{method:'DELETE'})
     }
-    componentDidMount(){
-       this.fetchAddressbook()
+    async componentDidMount(){
+        await this.fetchAddressbook()        
+
+        if(this.state.addressBook.length > 0){
+            await this.setState({
+                ...this.state,
+                deliveryAddrId: this.state.addressBook[0].id
+            })
+        }        
     }
     goSection(e){        
         var chectout_sect = $(e.target).closest(".chectout_sect");
@@ -111,7 +93,7 @@ export default class Checkout extends Component {
         $(chectout_sect).children(".sectContent").slideUp(300)
     }
     render() {
-        const {isNewAddr, editAddr, addressBook} = this.state;
+        const {isNewAddr, editAddr, addressBook, deliveryAddrId, deliveryMode, deliveryTaxPay} = this.state;
         return (
             <div className="pageContent_wrap">
 
@@ -434,11 +416,11 @@ export default class Checkout extends Component {
                             </div>
 
 
-                            <div className="delivery_wrap">                                
+                            <div className="delivery_wrap">                               
                                 <DeliveryDetailsWrap 
-                                // delivery_address_radioGrp={"delivery_address1"}
-                                // delivery_mode_radioGrp={"delivery_mode1"}
-                                // delivery_taxPay_radioGrp={"delivery_taxPay1"}
+                                delivery_address_radioGrp={deliveryAddrId}
+                                delivery_mode_radioGrp={deliveryMode}
+                                delivery_taxPay_radioGrp={deliveryTaxPay}
                                 addressBook={addressBook}
                                    clickNewAddrBtn={()=>{
                                         this.setState({
@@ -476,8 +458,29 @@ export default class Checkout extends Component {
                                         $(".chectout_sect .delivery_details_wrap").slideUp();
                                       })                                                                           
                                    }}
-                                   clickDeleteAddrBtn={async (addressId)=>{                                       
-                                       await this.deleteAddress(addressId)
+                                   clickDeleteAddrBtn={async (values,deleteAddrId)=>{                                                                              
+                                       const deliveryAddrId = values.delivery_address_radioGrp,
+                                             deliveryMode = values.delivery_mode_radioGrp,
+                                             deliveryTaxPay = values.delivery_taxPay_radioGrp
+
+                                       if(deleteAddrId === deliveryAddrId){
+                                          //如果刪除寄出的地址，清除delivery_address_radioGrp                                          
+                                          this.setState({
+                                              ...this.state,
+                                              deliveryAddrId:"",
+                                              deliveryMode,
+                                              deliveryTaxPay
+                                          })
+                                       }else{                                        
+                                          //如果刪除的地址不是寄出的地址，維持delivery_address_radioGrp的值                                          
+                                          this.setState({
+                                              ...this.state,
+                                              deliveryAddrId:deliveryAddrId,
+                                              deliveryMode,
+                                              deliveryTaxPay
+                                          }) 
+                                       }
+                                       await this.deleteAddress(deleteAddrId)
                                        await this.fetchAddressbook();
                                    }}   
                                    submit={async (values)=>{

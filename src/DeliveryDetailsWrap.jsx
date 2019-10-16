@@ -42,17 +42,14 @@ class DeliveryDetails extends Component {
                       <li>
                         <input
                           type="radio"
-                          id={`delivery_address${index}`}
+                          id={id}
                           name="delivery_address_radioGrp"
-                          checked={
-                            values.delivery_address_radioGrp ===
-                            `delivery_address${index}`
-                          }
-                          value={`delivery_address${index}`}
+                          checked={values.delivery_address_radioGrp === id}
+                          value={id}
                           onChange={handleChange}
                           onBlur={handleBlur}
                         />
-                        <label for={`delivery_address${index}`}>
+                        <label for={id}>
                           {customerName},{phoneCode}
                           {phoneNo}
                           <br />
@@ -64,7 +61,9 @@ class DeliveryDetails extends Component {
                         <span onClick={() => clickEditAddrBtn(address)}>
                           修改
                         </span>
-                        <span onClick={() => clickDeleteAddrBtn(id)}>刪除</span>
+                        <span onClick={() => clickDeleteAddrBtn(values, id)}>
+                          刪除
+                        </span>
                       </li>
                     );
                   })}
@@ -178,7 +177,10 @@ class DeliveryDetails extends Component {
 //錯誤訊息
 const requiredSelect = <span className="text-error">必須選取一個項目</span>;
 //驗證規則
-const deliveryAddressRadioGrp = yup.string().required(requiredSelect);
+const deliveryAddressRadioGrp = yup
+  .string()
+  .required(requiredSelect)
+  .nullable(); //yup驗證允許此欄位null
 const deliveryModeRadioGrp = yup.string().required(requiredSelect);
 const deliveryTaxPayRadioGrp = yup.string().required(requiredSelect);
 
@@ -189,6 +191,7 @@ const validationSchema = yup.object().shape({
 });
 export const DeliveryDetailsWrap = withFormik({
   validationSchema,
+  enableReinitialize: true, //當props更新時, 是否要reset form
   mapPropsToValues: props => ({
     delivery_address_radioGrp: props.delivery_address_radioGrp,
     delivery_mode_radioGrp: props.delivery_mode_radioGrp,
