@@ -21,52 +21,42 @@ class DeliveryNewAddress extends Component {
               <div className="narrowerInput_wrap">
                 <p>
                   <select
-                    id="delivery_customerTitle"
-                    name="delivery_customerTitle"
+                    id="rcptSl"
+                    name="rcptSl"
                     required
-                    value={values.delivery_customerTitle}
+                    value={values.rcptSl}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    class={
-                      touched.delivery_customerTitle &&
-                      errors.delivery_customerTitle
-                        ? "error"
-                        : ""
-                    }
+                    class={touched.rcptSl && errors.rcptSl ? "error" : ""}
                   >
                     <option value="">稱謂*</option>
-                    <option value="ms">女士</option>
-                    <option value="mr">先生</option>
-                    <option value="mrs">太太</option>
-                    <option value="miss">小姐</option>
+                    <option value="03">女士</option>
+                    <option value="01">先生</option>
+                    <option value="04">太太</option>
+                    <option value="02">小姐</option>
                   </select>
-                  <ErrorMessage name="delivery_customerTitle" />
-                  {/* <span className="text-error">必須選取一個項目</span> */}
+                  <ErrorMessage name="rcptSl" />
                 </p>
               </div>
               <div className="widerInput_wrap">
                 <p>
                   <input
                     type="text"
-                    id="delivery_customerName"
-                    name="delivery_customerName"
+                    id="rcptFirstNam"
+                    name="rcptFirstNam"
                     placeholder="姓名*"
                     required
-                    value={values.delivery_customerName}
+                    value={values.rcptFirstNam}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     class={
-                      touched.delivery_customerName &&
-                      errors.delivery_customerName
-                        ? "error"
-                        : ""
+                      touched.rcptFirstNam && errors.rcptFirstNam ? "error" : ""
                     }
                   />
-                  {/* {touched.delivery_customerName && errors.delivery_customerName
-                    ? errors.delivery_customerName
+                  {/* {touched.rcptFirstNam && errors.rcptFirstNam
+                    ? errors.rcptFirstNam
                     : ""} */}
-                  <ErrorMessage name="delivery_customerName" />
-                  {/* <span className="text-error">必須填寫</span> */}
+                  <ErrorMessage name="rcptFirstNam" />
                 </p>
               </div>
             </div>
@@ -74,33 +64,33 @@ class DeliveryNewAddress extends Component {
               <div className="narrowerInput_wrap">
                 <p>
                   <select
-                    id="delivery_phoneCode"
-                    name="delivery_phoneCode"
+                    id="rcptMobCtryCde"
+                    name="rcptMobCtryCde"
                     className="narrowerInput"
                     required
-                    value={values.delivery_phoneCode}
+                    value={values.rcptMobCtryCde}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   >
-                    <option value="+852">+852</option>
-                    <option value="+86">+86</option>
+                    <option value="852">+852</option>
+                    <option value="86">+86</option>
+                    <option value="886">+886</option>
                   </select>
-                  {/* <span className="text-error">必須選取一個項目</span> */}
                 </p>
               </div>
               <div className="widerInput_wrap">
                 <p>
                   <input
                     type="text"
-                    id="delivery_phoneNo"
-                    name="delivery_phoneNo"
+                    id="rcptMobNbr"
+                    name="rcptMobNbr"
                     placeholder="電話號碼*"
                     required
-                    value={values.delivery_phoneNo}
+                    value={values.rcptMobNbr}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                  <ErrorMessage name="delivery_phoneNo" />
+                  <ErrorMessage name="rcptMobNbr" />
                 </p>
               </div>
             </div>
@@ -108,25 +98,24 @@ class DeliveryNewAddress extends Component {
           <p>
             <input
               type="text"
-              id="delivery_addressLine1"
-              name="delivery_addressLine1"
+              id="address1"
+              name="address1"
               placeholder="地址1*"
               required
-              value={values.delivery_addressLine1}
+              value={values.address1}
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <ErrorMessage name="delivery_addressLine1" />
-            {/* <span className="text-error">必須填寫</span> */}
+            <ErrorMessage name="address1" />
           </p>
           <p>
             <input
               type="text"
-              id="delivery_addressLine2"
-              name="delivery_addressLine2"
+              id="address2"
+              name="address2"
               placeholder="地址2"
               required
-              value={values.delivery_addressLine2}
+              value={values.address2}
               onChange={handleChange}
               onBlur={handleBlur}
             />
@@ -135,11 +124,11 @@ class DeliveryNewAddress extends Component {
             <div className="col-12 col-md-6">
               <p>
                 <select
-                  id="delivery_area"
-                  name="delivery_area"
+                  id="countryCode"
+                  name="countryCode"
                   className="narrowerInput"
                   required
-                  value={values.delivery_area}
+                  value={values.countryCode}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 >
@@ -193,29 +182,29 @@ const required = <span className="text-error">必須填寫</span>;
 const requiredSelect = <span className="text-error">必須選取一個項目</span>;
 
 //驗證規則
-const deliveryCustomerTitle = yup.string().required(requiredSelect);
-const deliveryCustomerNameValidation = yup
+const rcptSlValidation = yup.string().required(requiredSelect);
+const rcptFirstNamValidation = yup
   .string()
   .min(3, customerNameNotLongEnough)
   .max(255)
   .required(required);
 
-const deliveryPhoneNoValidation = yup
+const rcptMobNbrValidation = yup
   .string()
   .matches(phoneRegExp, invalidPhoneNo)
   .required(required);
 
-const deliveryAddressLine1Validation = yup
+const address1Validation = yup
   .string()
   .min(8, addressNoNotLongEnough)
   .max(255)
   .required(required);
 
 const validationSchema = yup.object().shape({
-  delivery_customerTitle: deliveryCustomerTitle,
-  delivery_customerName: deliveryCustomerNameValidation,
-  delivery_phoneNo: deliveryPhoneNoValidation,
-  delivery_addressLine1: deliveryAddressLine1Validation
+  rcptSl: rcptSlValidation,
+  rcptFirstNam: rcptFirstNamValidation,
+  rcptMobNbr: rcptMobNbrValidation,
+  address1: address1Validation
 });
 export const DeliveryNewAddressWrap = withFormik({
   validationSchema,
@@ -223,16 +212,16 @@ export const DeliveryNewAddressWrap = withFormik({
   //validateOnChange: false,//可以關掉change時驗證
   //validateOnBlur: false,//可以關掉blur時驗證
   mapPropsToValues: props => ({
-    delivery_customerTitle: props.delivery_customerTitle,
-    delivery_customerName: props.delivery_customerName,
-    delivery_phoneCode: props.delivery_phoneCode,
-    delivery_phoneNo: props.delivery_phoneNo,
-    delivery_addressLine1: props.delivery_addressLine1,
-    delivery_addressLine2: props.delivery_addressLine2,
-    delivery_area: props.delivery_area
+    rcptSl: props.rcptSl,
+    rcptFirstNam: props.rcptFirstNam,
+    rcptMobCtryCde: props.rcptMobCtryCde,
+    rcptMobNbr: props.rcptMobNbr,
+    address1: props.address1,
+    address2: props.address2,
+    countryCode: props.countryCode
   }),
   handleSubmit: async (values, { props, setErrors, setSubmitting }) => {
-    const errors = await props.submit(values, props.address_id);
+    const errors = await props.submit(values, props.addressId);
     if (errors) {
       setErrors(errors);
     }

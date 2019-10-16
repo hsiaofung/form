@@ -46,14 +46,19 @@ export default class Checkout extends Component {
     state={
         addressBook:[],
         editAddr:{
-            customerTitle:"",
-            customerName:"",
-            phoneCode:"",
-            phoneNo:"",
-            addressLine1:"",
-            addressLine2:"",
-            area:""
-        },
+            rcptSl: "",
+            customerName : "",
+            phoneCode : "",
+            phoneNo : "",
+            addressLine1 : "",
+            addressLine2 : "",
+            postCode : "",
+            city : "",
+            province : "",
+            countryCode : "",
+            //要傳遞id來做地址更新
+            id: ""
+          },
         isNewAddr:true
     }
     //載入addressbook
@@ -450,16 +455,16 @@ export default class Checkout extends Component {
                                           ...this.state,
                                           isNewAddr:false,
                                           editAddr:{
-                                            customerTitle: address.type,
-                                            customerName : address.rcptFirstNam,
-                                            phoneCode : address.rcptMobCtryCde,
-                                            phoneNo : address.rcptMobNbr,
-                                            addressLine1 : address.address1,
-                                            addressLine2 : address.address2,
+                                            rcptSl: address.rcptSl,
+                                            rcptFirstNam : address.rcptFirstNam,
+                                            rcptMobCtryCde : address.rcptMobCtryCde,
+                                            rcptMobNbr : address.rcptMobNbr,
+                                            address1 : address.address1,
+                                            address2 : address.address2,
                                             postCode : address.postCode,
                                             city : address.city,
                                             province : address.province,
-                                            area : address.countryCode,
+                                            countryCode : address.countryCode,
                                             //要傳遞id來做地址更新
                                             id: address.id
                                           }
@@ -471,8 +476,8 @@ export default class Checkout extends Component {
                                         $(".chectout_sect .delivery_details_wrap").slideUp();
                                       })                                                                           
                                    }}
-                                   clickDeleteAddrBtn={async (id)=>{                                       
-                                       await this.deleteAddress(id)
+                                   clickDeleteAddrBtn={async (addressId)=>{                                       
+                                       await this.deleteAddress(addressId)
                                        await this.fetchAddressbook();
                                    }}   
                                    submit={async (values)=>{
@@ -486,26 +491,26 @@ export default class Checkout extends Component {
                                    }}
                                 />                                
                                 <DeliveryNewAddressWrap 
-                                  delivery_customerTitle={isNewAddr?　"":editAddr.customerTitle}
-                                  delivery_customerName={isNewAddr?　"":editAddr.customerName}
-                                  delivery_phoneCode={isNewAddr?　"":editAddr.phoneCode}
-                                  delivery_phoneNo={isNewAddr?　"":editAddr.phoneNo}
-                                  delivery_addressLine1={isNewAddr?　"":editAddr.addressLine1}
-                                  delivery_addressLine2={isNewAddr?　"":editAddr.addressLine2}
-                                  delivery_area={isNewAddr?　"":editAddr.area}
-                                  address_id={isNewAddr?　"":editAddr.id}
-                                  submit={async (values, address_id)=>{
+                                  rcptSl={isNewAddr?　"":editAddr.rcptSl}
+                                  rcptFirstNam={isNewAddr?　"":editAddr.rcptFirstNam}
+                                  rcptMobCtryCde={isNewAddr?　"":editAddr.rcptMobCtryCde}
+                                  rcptMobNbr={isNewAddr?　"":editAddr.rcptMobNbr}
+                                  address1={isNewAddr?　"":editAddr.address1}
+                                  address2={isNewAddr?　"":editAddr.address2}
+                                  countryCode={isNewAddr?　"":editAddr.countryCode}
+                                  addressId={isNewAddr?　"":editAddr.id}
+                                  submit={async (values, addressId)=>{
                                     console.log('values', values)
                                     if(isNewAddr){
                                         //建立新的地址
                                         console.log('建立新的地址')
-                                        this.createAddress(values);
-                                        this.fetchAddressbook();
+                                        await this.createAddress(values);
+                                        await this.fetchAddressbook();
                                     }
                                     else{
                                         //更新舊有地址
                                         console.log('更新舊有地址')
-                                        await this.updateAddress(values, address_id);
+                                        await this.updateAddress(values, addressId);
                                         await this.fetchAddressbook();
                                     }
                                      //配送選擇 - 送貨服務 - 儲存地址

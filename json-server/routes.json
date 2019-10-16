@@ -14,7 +14,7 @@
   "/shopping/v1/dutytax/info/US": "/countryDetailInfo",
   "/shopping/v1/compositions/browsingHistory": "/browsingHistory",
   "/shopping/v1/compositions/mybags": "/myBag",
-  "/shopping/v1/customers/addressbook/:id": "/addressbook/:id", 
+  "/shopping/v1/customers/addressbook/:id": "/addressbook/:id",
   "/shopping/v1/customers/addressbook": "/addressbook",
   "/shopping/v1/compositions/miniCart": "/miniCart-90754R-18KW-QJ",
   "/shopping/v1/compositions/customers/info": "/customerInfo",
