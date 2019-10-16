@@ -36,8 +36,8 @@ class DeliveryDetails extends Component {
                       postCode = address.postCode,
                       city = address.city,
                       province = address.province,
-                      country = address.country;
-
+                      country = address.country,
+                      id = address.id;
                     return (
                       <li>
                         <input
@@ -64,9 +64,7 @@ class DeliveryDetails extends Component {
                         <span onClick={() => clickEditAddrBtn(address)}>
                           修改
                         </span>
-                        <span onClick={() => clickDeleteAddrBtn(address.id)}>
-                          刪除
-                        </span>
+                        <span onClick={() => clickDeleteAddrBtn(id)}>刪除</span>
                       </li>
                     );
                   })}
