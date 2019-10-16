@@ -542,7 +542,9 @@
                     },
                     {
                       "name": "配件",
-                      "value": ["塑料"]
+                      "value": [
+                        "塑料"
+                      ]
                     }
                   ]
                 }
@@ -3357,7 +3359,14 @@
       "rcptLastNam": "li",
       "rcptMobCtryCde": "886",
       "rcptMobNbr": "3067788",
-      "giftFor": "CHD"
+      "giftFor": "CHD",
+      "delivery_customerTitle": "S",
+      "delivery_customerName": "kimooo",
+      "delivery_phoneCode": "886",
+      "delivery_phoneNo": "3067788",
+      "delivery_addressLine1": "8龍8龍灣EEEEEEEEEE",
+      "delivery_addressLine2": null,
+      "delivery_area": "TW"
     },
     {
       "id": "2504",
@@ -3377,10 +3386,16 @@
       "rcptLastNam": "li",
       "rcptMobCtryCde": "886",
       "rcptMobNbr": "3067788",
-      "giftFor": "CHD"
+      "giftFor": "CHD",
+      "delivery_customerTitle": "S",
+      "delivery_customerName": "kimooo",
+      "delivery_phoneCode": "886",
+      "delivery_phoneNo": "3067788",
+      "delivery_addressLine1": "九龍九龍灣WWWWWWWWWWWWWWW",
+      "delivery_addressLine2": "臨興街21號",
+      "delivery_area": "HK"
     }
   ],
-
   "deliveries": {
     "region": "TW",
     "regionName": "臺灣",

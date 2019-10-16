@@ -64,7 +64,9 @@ class DeliveryDetails extends Component {
                         <span onClick={() => clickEditAddrBtn(address)}>
                           修改
                         </span>
-                        <span onClick={clickDeleteAddrBtn}>刪除</span>
+                        <span onClick={() => clickDeleteAddrBtn(address.id)}>
+                          刪除
+                        </span>
                       </li>
                     );
                   })}

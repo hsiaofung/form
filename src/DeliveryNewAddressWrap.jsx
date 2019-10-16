@@ -232,7 +232,7 @@ export const DeliveryNewAddressWrap = withFormik({
     delivery_area: props.delivery_area
   }),
   handleSubmit: async (values, { props, setErrors, setSubmitting }) => {
-    const errors = await props.submit(values);
+    const errors = await props.submit(values, props.address_id);
     if (errors) {
       setErrors(errors);
     }

@@ -9,6 +9,11 @@ import {DeliveryDetailsWrap} from './DeliveryDetailsWrap'
 import { Formik, Field } from "formik";
 
 let $ = window.$;
+const HOST_URL = 'http://localhost:3001';
+const api={
+    addressbook:`${HOST_URL}/shopping/v1/customers/addressbook`
+}
+
 // const addressBook = [
 //     {
 //       customerTitle:"ms",
@@ -51,14 +56,44 @@ export default class Checkout extends Component {
         },
         isNewAddr:true
     }
-    async componentDidMount(){
-       const res = await fetch("http://localhost:3001/shopping/v1/customers/addressbook")    
-       const data = await res.json()
-       
-       this.setState({
-           ...this.state,
-           addressBook:data
-       })
+    //載入addressbook
+    async fetchAddressbook(){
+        const res = await fetch(api.addressbook)    
+        const data = await res.json()
+        
+        this.setState({
+            ...this.state,
+            addressBook:data
+        })
+    }    
+    //更新address 
+    async updateAddress(values, id){
+        await fetch(`${api.addressbook}/${id}`, {
+            credentials: "include",
+            method: "PATCH",
+            headers: {
+              "content-type": "application/json"
+            },
+            body: JSON.stringify(values)
+          });
+    }
+    //建立address 
+    async createAddress(values){        
+        await fetch(api.addressbook, {
+            credentials: "include",
+            method: "POST",
+            headers: {
+              "content-type": "application/json"
+            },
+            body: JSON.stringify(values)
+          });
+    }
+    //刪除address
+    async deleteAddress(id){
+        await fetch(`${api.addressbook}/${id}`,{method:'DELETE'})
+    }
+    componentDidMount(){
+       this.fetchAddressbook()
     }
     goSection(e){        
         var chectout_sect = $(e.target).closest(".chectout_sect");
@@ -424,7 +459,9 @@ export default class Checkout extends Component {
                                             postCode : address.postCode,
                                             city : address.city,
                                             province : address.province,
-                                            area : address.countryCode
+                                            area : address.countryCode,
+                                            //要傳遞id來做地址更新
+                                            id: address.id
                                           }
                                       })
                                       //配送選擇 - 送貨服務 - 修改地址                                       
@@ -434,8 +471,9 @@ export default class Checkout extends Component {
                                         $(".chectout_sect .delivery_details_wrap").slideUp();
                                       })                                                                           
                                    }}
-                                   clickDeleteAddrBtn={async ()=>{
-                                       console.log('Click Delete Btn')
+                                   clickDeleteAddrBtn={async (id)=>{                                       
+                                       await this.deleteAddress(id)
+                                       await this.fetchAddressbook();
                                    }}   
                                    submit={async (values)=>{
                                        console.log('values', values)
@@ -455,8 +493,21 @@ export default class Checkout extends Component {
                                   delivery_addressLine1={isNewAddr?　"":editAddr.addressLine1}
                                   delivery_addressLine2={isNewAddr?　"":editAddr.addressLine2}
                                   delivery_area={isNewAddr?　"":editAddr.area}
-                                  submit={async (values)=>{
+                                  address_id={isNewAddr?　"":editAddr.id}
+                                  submit={async (values, address_id)=>{
                                     console.log('values', values)
+                                    if(isNewAddr){
+                                        //建立新的地址
+                                        console.log('建立新的地址')
+                                        this.createAddress(values);
+                                        this.fetchAddressbook();
+                                    }
+                                    else{
+                                        //更新舊有地址
+                                        console.log('更新舊有地址')
+                                        await this.updateAddress(values, address_id);
+                                        await this.fetchAddressbook();
+                                    }
                                      //配送選擇 - 送貨服務 - 儲存地址
                                      $(".chectout_sect .delivery_newAddress_wrap").slideUp();
                                      $(".chectout_sect .delivery_details_wrap").slideDown();
