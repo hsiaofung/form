@@ -9,36 +9,37 @@ import {DeliveryDetailsWrap} from './DeliveryDetailsWrap'
 import { Formik, Field } from "formik";
 
 let $ = window.$;
-const addressBook = [
-    {
-      customerTitle:"ms",
-      customerName: "LANCE",
-      phoneCode: "",
-      phoneNo: "15629124552",
-      address1: "LA",
-      address2: "",
-      city: "Los Angeles",
-      postCode: "90001",
-      province: "CA",      
-      countryName:"美國",
-      countryCode:"US"
-    },
-    {
-      customerTitle:"mr",
-      customerName: "楊過",
-      phoneCode: "+866",
-      phoneNo: "123456789",
-      address1: "武陵街",
-      address2: "",
-      city: "書城",
-      postCode: "888",
-      province: "安徽",      
-      countryName:"中國",
-      countryCode:"CN"
-    }
-  ];
+// const addressBook = [
+//     {
+//       customerTitle:"ms",
+//       customerName: "LANCE",
+//       phoneCode: "",
+//       phoneNo: "15629124552",
+//       address1: "LA",
+//       address2: "",
+//       city: "Los Angeles",
+//       postCode: "90001",
+//       province: "CA",      
+//       countryName:"美國",
+//       countryCode:"US"
+//     },
+//     {
+//       customerTitle:"mr",
+//       customerName: "楊過",
+//       phoneCode: "+866",
+//       phoneNo: "123456789",
+//       address1: "武陵街",
+//       address2: "",
+//       city: "書城",
+//       postCode: "888",
+//       province: "安徽",      
+//       countryName:"中國",
+//       countryCode:"CN"
+//     }
+//   ];
 export default class Checkout extends Component {
     state={
+        addressBook:[],
         editAddr:{
             customerTitle:"",
             customerName:"",
@@ -49,6 +50,15 @@ export default class Checkout extends Component {
             area:""
         },
         isNewAddr:true
+    }
+    async componentDidMount(){
+       const res = await fetch("http://localhost:3001/shopping/v1/customers/addressbook")    
+       const data = await res.json()
+       
+       this.setState({
+           ...this.state,
+           addressBook:data
+       })
     }
     goSection(e){        
         var chectout_sect = $(e.target).closest(".chectout_sect");
@@ -61,7 +71,7 @@ export default class Checkout extends Component {
         $(chectout_sect).children(".sectContent").slideUp(300)
     }
     render() {
-        const {isNewAddr, editAddr} = this.state;
+        const {isNewAddr, editAddr, addressBook} = this.state;
         return (
             <div className="pageContent_wrap">
 
@@ -405,10 +415,10 @@ export default class Checkout extends Component {
                                           ...this.state,
                                           isNewAddr:false,
                                           editAddr:{
-                                            customerTitle: address.customerTitle,
-                                            customerName : address.customerName,
-                                            phoneCode : address.phoneCode,
-                                            phoneNo : address.phoneNo,
+                                            customerTitle: address.type,
+                                            customerName : address.rcptFirstNam,
+                                            phoneCode : address.rcptMobCtryCde,
+                                            phoneNo : address.rcptMobNbr,
                                             addressLine1 : address.address1,
                                             addressLine2 : address.address2,
                                             postCode : address.postCode,

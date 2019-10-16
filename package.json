@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "formik": "^1.5.8",
+    "json-server": "^0.15.1",
     "react": "^16.10.1",
     "react-dom": "^16.10.1",
     "react-scripts": "3.1.2",
@@ -13,7 +14,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "node ./json-server/server.js"
   },
   "eslintConfig": {
     "extends": "react-app"

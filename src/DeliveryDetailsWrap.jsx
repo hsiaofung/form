@@ -28,15 +28,15 @@ class DeliveryDetails extends Component {
               <div className="radioBtns_wrap vertical">
                 <ul>
                   {addressBook.map((address, index) => {
-                    const customerName = address.customerName,
-                      phoneCode = address.phoneCode,
-                      phoneNo = address.phoneNo,
+                    const customerName = address.rcptFirstNam,
+                      phoneCode = address.rcptMobCtryCde,
+                      phoneNo = address.rcptMobNbr,
                       address1 = address.address1,
                       address2 = address.address2,
                       postCode = address.postCode,
                       city = address.city,
                       province = address.province,
-                      country = address.countryName;
+                      country = address.country;
 
                     return (
                       <li>

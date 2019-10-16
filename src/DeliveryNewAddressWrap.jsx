@@ -149,6 +149,7 @@ class DeliveryNewAddress extends Component {
                   <option value="AT">奧地利</option>
                   <option value="BE">比利時</option>
                   <option value="US">美國</option>
+                  <option value="TW">台灣</option>
                 </select>
               </p>
             </div>
