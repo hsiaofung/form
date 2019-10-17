@@ -2,7 +2,24 @@ import React, { Component } from "react";
 import { Formik, Field, withFormik, ErrorMessage } from "formik";
 import * as yup from "yup";
 
+const HOST_URL = "http://localhost:3001";
+
 class DeliveryNewAddress extends Component {
+  state = {
+    countryList: []
+  };
+  async fetchCountryList() {
+    const res = await fetch(`${HOST_URL}/shopping/v1/deliveries/regions/info`);
+    const data = await res.json();
+
+    await this.setState({
+      ...this.state,
+      countryList: data
+    });
+  }
+  componentDidMount() {
+    this.fetchCountryList();
+  }
   render() {
     const {
       values,
@@ -10,7 +27,8 @@ class DeliveryNewAddress extends Component {
       handleBlur,
       handleSubmit,
       touched,
-      errors
+      errors,
+      handleCountryChange
     } = this.props;
     return (
       <div className="delivery_newAddress_wrap">
@@ -129,16 +147,16 @@ class DeliveryNewAddress extends Component {
                   className="narrowerInput"
                   required
                   value={values.countryCode}
-                  onChange={handleChange}
+                  onChange={e => {
+                    handleChange(e);
+                    handleCountryChange(e);
+                  }}
                   onBlur={handleBlur}
                 >
-                  <option value="HK">香港</option>
-                  <option value="CN">中國大陸</option>
-                  <option value="AU">澳洲</option>
-                  <option value="AT">奧地利</option>
-                  <option value="BE">比利時</option>
-                  <option value="US">美國</option>
-                  <option value="TW">台灣</option>
+                  {this.state.countryList &&
+                    this.state.countryList.map((country, index) => (
+                      <option value={country.code}>{country.name}</option>
+                    ))}
                 </select>
               </p>
             </div>

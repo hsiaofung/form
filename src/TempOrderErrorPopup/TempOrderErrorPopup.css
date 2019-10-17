@@ -1,0 +1,138 @@
+.error-popup-background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-popup-content {
+  width: 80%;
+  max-width: 1024px;
+  background: white;
+  opacity: 1;
+  animation: LoginDropDown 500ms 300ms ease-in forwards;
+}
+
+.error-popup-head {
+  padding: 0 20px;
+  position: relative;
+}
+
+.error-popup-head h2 {
+  margin: 0;
+  padding: 20px 0;
+  font-weight: 500;
+  font-size: 28px;
+  border-bottom: 1px solid #e5e5e5;
+  text-align: center;
+}
+
+.error-popup-head img.logo {
+  width: 300px;
+}
+
+.error-popup-body {
+  padding: 1rem;
+}
+
+.error-popup-grid {
+  grid-template-columns: 1fr 1fr;
+  display: grid;
+  margin-bottom: 2.5rem;
+}
+
+.mail-to {
+  color: #c79968;
+  text-decoration: underline;
+}
+
+.keep-shopping-a {
+  width: 100%;
+}
+
+.close-button {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 23px;
+  height: 23px;
+  cursor: pointer;
+  opacity: 0.6;
+  background: url("./close.png") no-repeat center center;
+  background-size: cover;
+}
+
+.close-button:hover {
+  opacity: 0.4;
+}
+
+.error-body-text {
+  text-align: center;
+}
+
+.grid-left {
+  padding-right: 15px;
+  border-right: 1px solid #e5e5e5;
+}
+
+.grid-right {
+  padding-left: 15px;
+  font-size: 14px;
+}
+
+.outOfStock_list {
+  color: #b72126;
+  margin-bottom: 1.25rem;
+}
+
+.outOfStock_list li {
+  margin-bottom: 0.3125rem;
+}
+
+@media only screen and (max-width: 767px) {
+  .error-popup-content {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .error-popup-head h2 {
+    font-size: 19px;
+    font-weight: bold;
+  }
+
+  .error-popup-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-left {
+    padding-right: 0;
+    border-right: 0;
+  }
+
+  .grid-right {
+    padding-left: 0;
+    margin-top: 1.25rem;
+    font-size: 12px;
+  }
+
+  .close-button {
+    top: 25%;
+    left: 25px;
+    right: auto;
+    width: 1.5rem;
+    height: 40px;
+    background: url("./arrow-left.svg") no-repeat center center;
+    opacity: 1;
+  }
+
+  .outOfStock_list {
+    margin-bottom: 2.5rem;
+  }
+}

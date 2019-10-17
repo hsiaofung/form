@@ -6,6 +6,7 @@
 import React, { Component } from 'react'
 import {DeliveryNewAddressWrap} from './DeliveryNewAddressWrap'
 import {DeliveryDetailsWrap} from './DeliveryDetailsWrap'
+import TempOrderErrorPopup from './TempOrderErrorPopup'
 import { Formik, Field } from "formik";
 
 let $ = window.$;
@@ -29,13 +30,16 @@ export default class Checkout extends Component {
             province : "",
             countryCode : "",
             //要傳遞id來做地址更新
-            id: ""
+            id: "",
+            isShowChinaDialog:false
           },
         isNewAddr:true,
+        isResetAddr:false,
         deliveryAddrId:null,//此欄位empty必須設null
         deliveryMode:"delivery_mode1",
         deliveryTaxPay:"delivery_taxPay1"
-    }
+    }    
+    
     //載入addressbook
     async fetchAddressbook(){
         const res = await fetch(api.addressbook)    
@@ -94,7 +98,7 @@ export default class Checkout extends Component {
         $(chectout_sect).children(".sectContent").slideUp(300)
     }
     render() {
-        const {isNewAddr, editAddr, addressBook, deliveryAddrId, deliveryMode, deliveryTaxPay} = this.state;
+        const {isNewAddr, isResetAddr, editAddr, addressBook, deliveryAddrId, deliveryMode, deliveryTaxPay} = this.state;
         return (
             <div className="pageContent_wrap">
 
@@ -434,7 +438,7 @@ export default class Checkout extends Component {
                                         //配送選擇 - 送貨服務 - 新增地址                                       
                                         $("#cancelSaveAdd_btn").show();
                                         $(".chectout_sect .delivery_newAddress_wrap").slideDown();
-                                        $(".chectout_sect .delivery_details_wrap").slideUp();
+                                        $(".chectout_sect .delivery_details_wrap").slideUp();                                        
                                    }}
                                    //修改地址
                                    clickEditAddrBtn={(address)=>{
@@ -511,7 +515,7 @@ export default class Checkout extends Component {
                                    }}
                                 />                                
                                 <DeliveryNewAddressWrap 
-                                  rcptSl={isNewAddr?　"":editAddr.rcptSl}
+                                  rcptSl={isNewAddr?　"":editAddr.rcptSl}                                  
                                   rcptFirstNam={isNewAddr?　"":editAddr.rcptFirstNam}
                                   rcptMobCtryCde={isNewAddr?　"":editAddr.rcptMobCtryCde}
                                   rcptMobNbr={isNewAddr?　"":editAddr.rcptMobNbr}
@@ -519,6 +523,16 @@ export default class Checkout extends Component {
                                   address2={isNewAddr?　"":editAddr.address2}
                                   countryCode={isNewAddr?　"":editAddr.countryCode}
                                   addressId={isNewAddr?　"":editAddr.id}
+                                  handleCountryChange={ async (e) => {
+                                      const country = e.target.value
+                                      if(country === 'CN'){
+                                          console.log('顯示中國大陸的Dialog')
+                                          this.setState({
+                                              ...this.state,
+                                              isShowChinaDialog:true
+                                          })
+                                      }
+                                  }}
                                   submit={async (values, addressId)=>{                                    
                                     if(isNewAddr){
                                         //建立新的地址                                        
@@ -733,7 +747,13 @@ export default class Checkout extends Component {
             </div>
 
         </div>
-
+        {this.state.isShowChinaDialog&&<TempOrderErrorPopup text="更改配送目的地" closeTempOrderFailByOutOfStock={()=>{
+            this.setState({
+                ...this.state,
+                isShowChinaDialog:false,
+                isResetAddr:true
+            })
+        }} />}
 
 
 
