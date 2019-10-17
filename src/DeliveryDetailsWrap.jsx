@@ -3,10 +3,14 @@ import { Formik, Field, withFormik, ErrorMessage } from "formik";
 import * as yup from "yup";
 
 class DeliveryDetails extends Component {
+  // handleMyChange(e) {
+  //   console.log("My");
+  // }
   render() {
     const {
       values,
       handleChange,
+      handleDeliveryAddrChange,
       handleBlur,
       handleSubmit,
       touched,
@@ -46,7 +50,10 @@ class DeliveryDetails extends Component {
                           name="delivery_address_radioGrp"
                           checked={values.delivery_address_radioGrp === id}
                           value={id}
-                          onChange={handleChange}
+                          onChange={e => {
+                            handleChange(e); //Formik 原生的handleChange
+                            handleDeliveryAddrChange(values, e); //客製化的handleChange
+                          }}
                           onBlur={handleBlur}
                         />
                         <label for={id}>

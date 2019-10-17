@@ -73,6 +73,7 @@ export default class Checkout extends Component {
         await fetch(`${api.addressbook}/${id}`,{method:'DELETE'})
     }
     async componentDidMount(){
+        console.log('XXXX')
         await this.fetchAddressbook()        
 
         if(this.state.addressBook.length > 0){
@@ -416,12 +417,15 @@ export default class Checkout extends Component {
                             </div>
 
 
-                            <div className="delivery_wrap">                               
+                            <div className="delivery_wrap">                                 
                                 <DeliveryDetailsWrap 
+                                //初始值
                                 delivery_address_radioGrp={deliveryAddrId}
                                 delivery_mode_radioGrp={deliveryMode}
-                                delivery_taxPay_radioGrp={deliveryTaxPay}
+                                delivery_taxPay_radioGrp={deliveryTaxPay}                                
+                                //地址簿 
                                 addressBook={addressBook}
+                                   //新增地址
                                    clickNewAddrBtn={()=>{
                                         this.setState({
                                             ...this.state,
@@ -432,6 +436,7 @@ export default class Checkout extends Component {
                                         $(".chectout_sect .delivery_newAddress_wrap").slideDown();
                                         $(".chectout_sect .delivery_details_wrap").slideUp();
                                    }}
+                                   //修改地址
                                    clickEditAddrBtn={(address)=>{
                                       this.setState({
                                           ...this.state,
@@ -451,20 +456,21 @@ export default class Checkout extends Component {
                                             id: address.id
                                           }
                                       })
-                                      //配送選擇 - 送貨服務 - 修改地址                                       
+                                      //修改地址-開啟地址表單                                       
                                       $(document).ready(function(){
                                         $("#cancelSaveAdd_btn").show();
                                         $(".chectout_sect .delivery_newAddress_wrap").slideDown();
                                         $(".chectout_sect .delivery_details_wrap").slideUp();
                                       })                                                                           
                                    }}
+                                   //刪除地址
                                    clickDeleteAddrBtn={async (values,deleteAddrId)=>{                                                                              
                                        const deliveryAddrId = values.delivery_address_radioGrp,
                                              deliveryMode = values.delivery_mode_radioGrp,
                                              deliveryTaxPay = values.delivery_taxPay_radioGrp
 
-                                       if(deleteAddrId === deliveryAddrId){
-                                          //如果刪除寄出的地址，清除delivery_address_radioGrp                                          
+                                       if(deleteAddrId === deliveryAddrId){                                           
+                                          //如果刪除了已選擇的寄出的地址，清除delivery_address_radioGrp，更新送貨表單的初始值。
                                           this.setState({
                                               ...this.state,
                                               deliveryAddrId:"",
@@ -472,7 +478,7 @@ export default class Checkout extends Component {
                                               deliveryTaxPay
                                           })
                                        }else{                                        
-                                          //如果刪除的地址不是寄出的地址，維持delivery_address_radioGrp的值                                          
+                                          //如果刪除的地址不是寄出的地址，維持delivery_address_radioGrp的值，更新送貨表單的初始值。
                                           this.setState({
                                               ...this.state,
                                               deliveryAddrId:deliveryAddrId,
@@ -483,8 +489,19 @@ export default class Checkout extends Component {
                                        await this.deleteAddress(deleteAddrId)
                                        await this.fetchAddressbook();
                                    }}   
-                                   submit={async (values)=>{
-                                       console.log('values', values)
+                                   handleDeliveryAddrChange={async (values, e)=>{//當點選地址，同步更新deliveryAddrId       
+                                    const deliveryMode = values.delivery_mode_radioGrp,
+                                          deliveryTaxPay = values.delivery_taxPay_radioGrp
+                         
+                                       this.setState({
+                                           ...this.state,
+                                           deliveryAddrId:e.target.value,  
+                                           deliveryMode,
+                                           deliveryTaxPay                                          
+                                       })
+                                   }}
+                                   submit={async (values)=>{       
+                                       console.log('values', values)                                
                                         //配送選擇 - 送貨服務 - 下一步                                                                             
                                         $('.chectout_deliver').removeClass("opened");
                                         $('.chectout_deliver').addClass("filled");    
@@ -502,17 +519,14 @@ export default class Checkout extends Component {
                                   address2={isNewAddr?　"":editAddr.address2}
                                   countryCode={isNewAddr?　"":editAddr.countryCode}
                                   addressId={isNewAddr?　"":editAddr.id}
-                                  submit={async (values, addressId)=>{
-                                    console.log('values', values)
+                                  submit={async (values, addressId)=>{                                    
                                     if(isNewAddr){
-                                        //建立新的地址
-                                        console.log('建立新的地址')
+                                        //建立新的地址                                        
                                         await this.createAddress(values);
                                         await this.fetchAddressbook();
                                     }
                                     else{
-                                        //更新舊有地址
-                                        console.log('更新舊有地址')
+                                        //更新舊有地址                                        
                                         await this.updateAddress(values, addressId);
                                         await this.fetchAddressbook();
                                     }
