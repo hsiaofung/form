@@ -30,16 +30,19 @@ export default class Checkout extends Component {
             province : "",
             countryCode : "",
             //要傳遞id來做地址更新
-            id: "",
-            isShowChinaDialog:false
-          },
+            id: ""            
+          },        
         isNewAddr:true,
         isResetAddr:false,
         deliveryAddrId:null,//此欄位empty必須設null
         deliveryMode:"delivery_mode1",
-        deliveryTaxPay:"delivery_taxPay1"
+        deliveryTaxPay:"delivery_taxPay1",
+        isShowChinaDialog:false
     }    
-    
+    getAddressInitialValue(field){
+        if(!this.state.isResetAddr) return field;
+        return ""        
+    }
     //載入addressbook
     async fetchAddressbook(){
         const res = await fetch(api.addressbook)    
@@ -433,7 +436,8 @@ export default class Checkout extends Component {
                                    clickNewAddrBtn={()=>{
                                         this.setState({
                                             ...this.state,
-                                            isNewAddr:true
+                                            isNewAddr:true, //新增地址狀態
+                                            isResetAddr:true//清空欄位
                                         }) 
                                         //配送選擇 - 送貨服務 - 新增地址                                       
                                         $("#cancelSaveAdd_btn").show();
@@ -444,8 +448,9 @@ export default class Checkout extends Component {
                                    clickEditAddrBtn={(address)=>{
                                       this.setState({
                                           ...this.state,
-                                          isNewAddr:false,
-                                          editAddr:{
+                                          isNewAddr:false,  //設定修改地址狀態
+                                          isResetAddr:false,//不要清空欄位，要載入點選的地址到欄位
+                                          editAddr:{        //設定欄位值
                                             rcptSl: address.rcptSl,
                                             rcptFirstNam : address.rcptFirstNam,
                                             rcptMobCtryCde : address.rcptMobCtryCde,
@@ -504,8 +509,7 @@ export default class Checkout extends Component {
                                            deliveryTaxPay                                          
                                        })
                                    }}
-                                   submit={async (values)=>{       
-                                       console.log('values', values)                                
+                                   submit={async (values)=>{                                              
                                         //配送選擇 - 送貨服務 - 下一步                                                                             
                                         $('.chectout_deliver').removeClass("opened");
                                         $('.chectout_deliver').addClass("filled");    
@@ -514,22 +518,35 @@ export default class Checkout extends Component {
                                         $(".chectout_deliver .sectContent").slideUp(300);
                                    }}
                                 />                                
-                                <DeliveryNewAddressWrap 
-                                  rcptSl={isNewAddr?　"":editAddr.rcptSl}                                  
-                                  rcptFirstNam={isNewAddr?　"":editAddr.rcptFirstNam}
-                                  rcptMobCtryCde={isNewAddr?　"":editAddr.rcptMobCtryCde}
-                                  rcptMobNbr={isNewAddr?　"":editAddr.rcptMobNbr}
-                                  address1={isNewAddr?　"":editAddr.address1}
-                                  address2={isNewAddr?　"":editAddr.address2}
-                                  countryCode={isNewAddr?　"":editAddr.countryCode}
-                                  addressId={isNewAddr?　"":editAddr.id}
-                                  handleCountryChange={ async (e) => {
-                                      const country = e.target.value
+                                <DeliveryNewAddressWrap                                   
+                                  rcptSl={this.getAddressInitialValue(editAddr.rcptSl)}                                   
+                                  rcptFirstNam={this.getAddressInitialValue(editAddr.rcptFirstNam)}                                   
+                                  rcptMobNbr={this.getAddressInitialValue(editAddr.rcptMobNbr)}
+                                  address1={this.getAddressInitialValue(editAddr.address1)}
+                                  address2={this.getAddressInitialValue(editAddr.address2)}
+                                  countryCode={this.getAddressInitialValue(editAddr.countryCode)}
+                                  addressId={this.getAddressInitialValue(editAddr.addressId)}
+                                  handleCountryChange={ async (e,values) => {                                      
+                                      const country = e.target.value;
                                       if(country === 'CN'){
                                           console.log('顯示中國大陸的Dialog')
                                           this.setState({
                                               ...this.state,
-                                              isShowChinaDialog:true
+                                              isResetAddr:false,
+                                              isShowChinaDialog:true,
+                                              editAddr:{ //若地址有更新，要同步更新欄位的值。
+                                                ...this.state.editAddr,
+                                                rcptSl: values.rcptSl,
+                                                rcptFirstNam : values.rcptFirstNam,
+                                                rcptMobCtryCde : values.rcptMobCtryCde,
+                                                rcptMobNbr : values.rcptMobNbr,
+                                                address1 : values.address1,
+                                                address2 : values.address2,
+                                                postCode : values.postCode,
+                                                city : values.city,
+                                                province : values.province,
+                                                countryCode : values.countryCode
+                                              }
                                           })
                                       }else if(country === 'HK'){
                                            
@@ -753,7 +770,7 @@ export default class Checkout extends Component {
             this.setState({
                 ...this.state,
                 isShowChinaDialog:false,
-                isResetAddr:true
+                isResetAddr:true //當從中國Dialog返回時，清空地址欄位。
             })
         }} />}
 

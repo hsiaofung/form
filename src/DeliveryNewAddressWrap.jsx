@@ -150,7 +150,7 @@ class DeliveryNewAddress extends Component {
                   value={values.countryCode}
                   onChange={e => {
                     handleChange(e);
-                    handleCountryChange(e);
+                    handleCountryChange(e,values);
                   }}
                   onBlur={handleBlur}
                 >
