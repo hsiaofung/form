@@ -43,6 +43,23 @@ export default class Checkout extends Component {
         if(!this.state.isResetAddr) return field;
         return ""        
     }
+    setAddressValue(values){
+       const address = {
+            rcptSl: values.rcptSl,
+            rcptFirstNam : values.rcptFirstNam,
+            rcptMobCtryCde : values.rcptMobCtryCde,
+            rcptMobNbr : values.rcptMobNbr,
+            address1 : values.address1,
+            address2 : values.address2,
+            postCode : values.postCode,
+            city : values.city,
+            province : values.province,
+            countryCode : values.countryCode,
+            //要傳遞id來做地址更新
+            id: values.id
+       }
+       return address
+    }
     //載入addressbook
     async fetchAddressbook(){
         const res = await fetch(api.addressbook)    
@@ -450,20 +467,21 @@ export default class Checkout extends Component {
                                           ...this.state,
                                           isNewAddr:false,  //設定修改地址狀態
                                           isResetAddr:false,//不要清空欄位，要載入點選的地址到欄位
-                                          editAddr:{        //設定欄位值
-                                            rcptSl: address.rcptSl,
-                                            rcptFirstNam : address.rcptFirstNam,
-                                            rcptMobCtryCde : address.rcptMobCtryCde,
-                                            rcptMobNbr : address.rcptMobNbr,
-                                            address1 : address.address1,
-                                            address2 : address.address2,
-                                            postCode : address.postCode,
-                                            city : address.city,
-                                            province : address.province,
-                                            countryCode : address.countryCode,
-                                            //要傳遞id來做地址更新
-                                            id: address.id
-                                          }
+                                          editAddr:this.setAddressValue(address)
+                                        //   editAddr:{        //設定欄位值
+                                        //     rcptSl: address.rcptSl,
+                                        //     rcptFirstNam : address.rcptFirstNam,
+                                        //     rcptMobCtryCde : address.rcptMobCtryCde,
+                                        //     rcptMobNbr : address.rcptMobNbr,
+                                        //     address1 : address.address1,
+                                        //     address2 : address.address2,
+                                        //     postCode : address.postCode,
+                                        //     city : address.city,
+                                        //     province : address.province,
+                                        //     countryCode : address.countryCode,
+                                        //     //要傳遞id來做地址更新
+                                        //     id: address.id
+                                        //   }
                                       })
                                       //修改地址-開啟地址表單                                       
                                       $(document).ready(function(){
@@ -530,19 +548,7 @@ export default class Checkout extends Component {
                                       this.setState({
                                           ...this.state,
                                           isResetAddr:false,//準備清空欄位。
-                                          editAddr:{ //若地址有更新，要同步更新欄位的值。以備新增地址清除欄位。
-                                            ...this.state.editAddr,
-                                            rcptSl: values.rcptSl,
-                                            rcptFirstNam : values.rcptFirstNam,
-                                            rcptMobCtryCde : values.rcptMobCtryCde,
-                                            rcptMobNbr : values.rcptMobNbr,
-                                            address1 : values.address1,
-                                            address2 : values.address2,
-                                            postCode : values.postCode,
-                                            city : values.city,
-                                            province : values.province,
-                                            countryCode : values.countryCode
-                                          }
+                                          editAddr:this.setAddressValue(values)
                                       })
                                   }}
                                   handleCountryChange={ async (e,values) => {                                      
@@ -553,19 +559,7 @@ export default class Checkout extends Component {
                                               ...this.state,
                                               isResetAddr:false,
                                               isShowChinaDialog:true,
-                                              editAddr:{ //若地址有更新，要同步更新欄位的值。
-                                                ...this.state.editAddr,
-                                                rcptSl: values.rcptSl,
-                                                rcptFirstNam : values.rcptFirstNam,
-                                                rcptMobCtryCde : values.rcptMobCtryCde,
-                                                rcptMobNbr : values.rcptMobNbr,
-                                                address1 : values.address1,
-                                                address2 : values.address2,
-                                                postCode : values.postCode,
-                                                city : values.city,
-                                                province : values.province,
-                                                countryCode : values.countryCode
-                                              }
+                                              editAddr:this.setAddressValue(values)
                                           })
                                       }else if(country === 'HK'){
                                            
