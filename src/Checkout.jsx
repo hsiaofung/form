@@ -526,6 +526,25 @@ export default class Checkout extends Component {
                                   address2={this.getAddressInitialValue(editAddr.address2)}
                                   countryCode={this.getAddressInitialValue(editAddr.countryCode)}
                                   addressId={this.getAddressInitialValue(editAddr.addressId)}
+                                  handleCancel={ async (values) => {
+                                      this.setState({
+                                          ...this.state,
+                                          isResetAddr:false,//準備清空欄位。
+                                          editAddr:{ //若地址有更新，要同步更新欄位的值。以備新增地址清除欄位。
+                                            ...this.state.editAddr,
+                                            rcptSl: values.rcptSl,
+                                            rcptFirstNam : values.rcptFirstNam,
+                                            rcptMobCtryCde : values.rcptMobCtryCde,
+                                            rcptMobNbr : values.rcptMobNbr,
+                                            address1 : values.address1,
+                                            address2 : values.address2,
+                                            postCode : values.postCode,
+                                            city : values.city,
+                                            province : values.province,
+                                            countryCode : values.countryCode
+                                          }
+                                      })
+                                  }}
                                   handleCountryChange={ async (e,values) => {                                      
                                       const country = e.target.value;
                                       if(country === 'CN'){

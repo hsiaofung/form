@@ -29,7 +29,8 @@ class DeliveryNewAddress extends Component {
       handleSubmit,
       touched,
       errors,
-      handleCountryChange
+      handleCountryChange,
+      handleCancel
     } = this.props;
     return (
       <div className="delivery_newAddress_wrap">
@@ -150,7 +151,7 @@ class DeliveryNewAddress extends Component {
                   value={values.countryCode}
                   onChange={e => {
                     handleChange(e);
-                    handleCountryChange(e,values);
+                    handleCountryChange(e, values);
                   }}
                   onBlur={handleBlur}
                 >
@@ -169,6 +170,7 @@ class DeliveryNewAddress extends Component {
               id="cancelSaveAdd_btn"
               className="blockBtn grey"
               href="javascript:void(0)"
+              onClick={handleCancel}
             >
               取消
             </a>
