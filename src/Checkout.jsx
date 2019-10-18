@@ -531,6 +531,8 @@ export default class Checkout extends Component {
                                               ...this.state,
                                               isShowChinaDialog:true
                                           })
+                                      }else if(country === 'HK'){
+                                           
                                       }
                                   }}
                                   submit={async (values, addressId)=>{                                    
