@@ -38,13 +38,26 @@ export default class Checkout extends Component {
         deliveryMode:"delivery_mode1",
         deliveryTaxPay:"delivery_taxPay1",
         isShowChinaDialog:false
-    }    
-    getAddressInitialValue(field){
-        if(!this.state.isResetAddr) return field;
-        return ""        
-    }
+    }        
     setAddressValue(values){
-       const address = {
+       if(values === undefined){
+         return {
+            rcptSl: "",
+            rcptFirstNam : "",
+            rcptMobCtryCde : "",
+            rcptMobNbr : "",
+            address1 : "",
+            address2 : "",
+            postCode : "",
+            city : "",
+            province : "",
+            countryCode : "",
+            //要傳遞id來做地址更新
+            id: ""
+         }  
+       } 
+       else{
+        return{
             rcptSl: values.rcptSl,
             rcptFirstNam : values.rcptFirstNam,
             rcptMobCtryCde : values.rcptMobCtryCde,
@@ -57,8 +70,8 @@ export default class Checkout extends Component {
             countryCode : values.countryCode,
             //要傳遞id來做地址更新
             id: values.id
-       }
-       return address
+        }    
+       }       
     }
     //載入addressbook
     async fetchAddressbook(){
@@ -453,8 +466,8 @@ export default class Checkout extends Component {
                                    clickNewAddrBtn={()=>{
                                         this.setState({
                                             ...this.state,
-                                            isNewAddr:true, //新增地址狀態
-                                            isResetAddr:true//清空欄位
+                                            isNewAddr:true, //新增地址狀態                                            
+                                            editAddr:this.setAddressValue()                                        
                                         }) 
                                         //配送選擇 - 送貨服務 - 新增地址                                       
                                         $("#cancelSaveAdd_btn").show();
@@ -462,27 +475,13 @@ export default class Checkout extends Component {
                                         $(".chectout_sect .delivery_details_wrap").slideUp();                                        
                                    }}
                                    //修改地址
-                                   clickEditAddrBtn={(address)=>{
+                                   clickEditAddrBtn={(address, setFieldValue)=>{
                                       this.setState({
                                           ...this.state,
-                                          isNewAddr:false,  //設定修改地址狀態
-                                          isResetAddr:false,//不要清空欄位，要載入點選的地址到欄位
-                                          editAddr:this.setAddressValue(address)
-                                        //   editAddr:{        //設定欄位值
-                                        //     rcptSl: address.rcptSl,
-                                        //     rcptFirstNam : address.rcptFirstNam,
-                                        //     rcptMobCtryCde : address.rcptMobCtryCde,
-                                        //     rcptMobNbr : address.rcptMobNbr,
-                                        //     address1 : address.address1,
-                                        //     address2 : address.address2,
-                                        //     postCode : address.postCode,
-                                        //     city : address.city,
-                                        //     province : address.province,
-                                        //     countryCode : address.countryCode,
-                                        //     //要傳遞id來做地址更新
-                                        //     id: address.id
-                                        //   }
+                                          isNewAddr:false,  //設定修改地址狀態                                          
+                                          editAddr:this.setAddressValue(address)                                        
                                       })
+                                      
                                       //修改地址-開啟地址表單                                       
                                       $(document).ready(function(){
                                         $("#cancelSaveAdd_btn").show();
@@ -537,13 +536,13 @@ export default class Checkout extends Component {
                                    }}
                                 />                                
                                 <DeliveryNewAddressWrap                                   
-                                  rcptSl={this.getAddressInitialValue(editAddr.rcptSl)}                                   
-                                  rcptFirstNam={this.getAddressInitialValue(editAddr.rcptFirstNam)}                                   
-                                  rcptMobNbr={this.getAddressInitialValue(editAddr.rcptMobNbr)}
-                                  address1={this.getAddressInitialValue(editAddr.address1)}
-                                  address2={this.getAddressInitialValue(editAddr.address2)}
-                                  countryCode={this.getAddressInitialValue(editAddr.countryCode)}
-                                  addressId={this.getAddressInitialValue(editAddr.addressId)}
+                                  rcptSl={editAddr.rcptSl}                                   
+                                  rcptFirstNam={editAddr.rcptFirstNam}                                   
+                                  rcptMobNbr={editAddr.rcptMobNbr}
+                                  address1={editAddr.address1}
+                                  address2={editAddr.address2}
+                                  countryCode={editAddr.countryCode}
+                                  addressId={editAddr.addressId}
                                   handleCancel={ async (values) => {
                                       this.setState({
                                           ...this.state,

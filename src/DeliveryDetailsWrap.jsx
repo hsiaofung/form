@@ -10,6 +10,7 @@ class DeliveryDetails extends Component {
     const {
       values,
       handleChange,
+      setFieldValue,
       handleDeliveryAddrChange,
       handleBlur,
       handleSubmit,
@@ -65,7 +66,11 @@ class DeliveryDetails extends Component {
                           <br />
                           {city}, {province}, {country}
                         </label>
-                        <span onClick={() => clickEditAddrBtn(address)}>
+                        <span
+                          onClick={() =>
+                            clickEditAddrBtn(address, setFieldValue)
+                          }
+                        >
                           修改
                         </span>
                         <span onClick={() => clickDeleteAddrBtn(values, id)}>
