@@ -49,12 +49,9 @@ class DeliveryDetails extends Component {
                           type="radio"
                           id={id}
                           name="delivery_address_radioGrp"
-                          checked={values.delivery_address_radioGrp === id}
+                          checked={values.delivery_address_radioGrp == id}
                           value={id}
-                          onChange={e => {
-                            handleChange(e); //Formik 原生的handleChange
-                            handleDeliveryAddrChange(values, e); //客製化的handleChange
-                          }}
+                          onChange={handleChange}
                           onBlur={handleBlur}
                         />
                         <label for={id}>
@@ -73,7 +70,11 @@ class DeliveryDetails extends Component {
                         >
                           修改
                         </span>
-                        <span onClick={() => clickDeleteAddrBtn(values, id)}>
+                        <span
+                          onClick={() =>
+                            clickDeleteAddrBtn(values, id, setFieldValue)
+                          }
+                        >
                           刪除
                         </span>
                       </li>

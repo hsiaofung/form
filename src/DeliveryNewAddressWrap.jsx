@@ -26,6 +26,7 @@ class DeliveryNewAddress extends Component {
       values,
       handleChange,
       handleBlur,
+      setFieldValue,
       handleSubmit,
       touched,
       errors,
@@ -150,8 +151,7 @@ class DeliveryNewAddress extends Component {
                   required
                   value={values.countryCode}
                   onChange={e => {
-                    handleChange(e);
-                    handleCountryChange(e, values);
+                    handleCountryChange(e, values, setFieldValue);
                   }}
                   onBlur={handleBlur}
                 >

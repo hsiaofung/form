@@ -20,17 +20,17 @@ export default class Checkout extends Component {
         addressBook:[],
         editAddr:{
             rcptSl: "",
-            customerName : "",
-            phoneCode : "",
-            phoneNo : "",
-            addressLine1 : "",
-            addressLine2 : "",
+            rcptFirstNam : "",
+            rcptMobCtryCde : "",
+            rcptMobNbr : "",
+            address1 : "",
+            address2 : "",
             postCode : "",
             city : "",
             province : "",
             countryCode : "",
             //要傳遞id來做地址更新
-            id: ""            
+            id: 0            
           },        
         isNewAddr:true,
         isResetAddr:false,
@@ -39,8 +39,13 @@ export default class Checkout extends Component {
         deliveryTaxPay:"delivery_taxPay1",
         isShowChinaDialog:false
     }        
+    emptyAddressValue(values, setFieldValue){
+        Object.keys(values).forEach(item => setFieldValue(item,"", false))
+    }
     setAddressValue(values){
+        console.log('-- CK --- values', values)
        if(values === undefined){
+        console.log('-- CK ---enter  values', values)
          return {
             rcptSl: "",
             rcptFirstNam : "",
@@ -52,8 +57,6 @@ export default class Checkout extends Component {
             city : "",
             province : "",
             countryCode : "",
-            //要傳遞id來做地址更新
-            id: ""
          }  
        } 
        else{
@@ -109,8 +112,7 @@ export default class Checkout extends Component {
     async deleteAddress(id){
         await fetch(`${api.addressbook}/${id}`,{method:'DELETE'})
     }
-    async componentDidMount(){
-        console.log('XXXX')
+    async componentDidMount(){        
         await this.fetchAddressbook()        
 
         if(this.state.addressBook.length > 0){
@@ -475,7 +477,7 @@ export default class Checkout extends Component {
                                         $(".chectout_sect .delivery_details_wrap").slideUp();                                        
                                    }}
                                    //修改地址
-                                   clickEditAddrBtn={(address, setFieldValue)=>{
+                                   clickEditAddrBtn={(address)=>{
                                       this.setState({
                                           ...this.state,
                                           isNewAddr:false,  //設定修改地址狀態                                          
@@ -490,51 +492,26 @@ export default class Checkout extends Component {
                                       })                                                                           
                                    }}
                                    //刪除地址
-                                   clickDeleteAddrBtn={async (values,deleteAddrId)=>{                                                                              
-                                       const deliveryAddrId = values.delivery_address_radioGrp,
-                                             deliveryMode = values.delivery_mode_radioGrp,
-                                             deliveryTaxPay = values.delivery_taxPay_radioGrp
-
-                                       if(deleteAddrId === deliveryAddrId){                                           
-                                          //如果刪除了已選擇的寄出的地址，清除delivery_address_radioGrp，更新送貨表單的初始值。
-                                          this.setState({
-                                              ...this.state,
-                                              deliveryAddrId:"",
-                                              deliveryMode,
-                                              deliveryTaxPay
-                                          })
-                                       }else{                                        
-                                          //如果刪除的地址不是寄出的地址，維持delivery_address_radioGrp的值，更新送貨表單的初始值。
-                                          this.setState({
-                                              ...this.state,
-                                              deliveryAddrId:deliveryAddrId,
-                                              deliveryMode,
-                                              deliveryTaxPay
-                                          }) 
+                                   clickDeleteAddrBtn={async (values,deleteAddrId, setFieldValue)=>{                                                                              
+                                       const deliveryAddrId = values.delivery_address_radioGrp                                                                                        
+                                       
+                                       if(deleteAddrId == deliveryAddrId){                                           
+                                          //如果刪除了已選擇的寄出的地址，清除delivery_address_radioGrp。                                          
+                                          setFieldValue('delivery_address_radioGrp', "", false)                                        
                                        }
                                        await this.deleteAddress(deleteAddrId)
                                        await this.fetchAddressbook();
-                                   }}   
-                                   handleDeliveryAddrChange={async (values, e)=>{//當點選地址，同步更新deliveryAddrId       
-                                    const deliveryMode = values.delivery_mode_radioGrp,
-                                          deliveryTaxPay = values.delivery_taxPay_radioGrp
-                         
-                                       this.setState({
-                                           ...this.state,
-                                           deliveryAddrId:e.target.value,  
-                                           deliveryMode,
-                                           deliveryTaxPay                                          
-                                       })
-                                   }}
+                                   }}                                      
                                    submit={async (values)=>{                                              
-                                        //配送選擇 - 送貨服務 - 下一步                                                                             
+                                        //配送選擇 - 送貨服務 - 下一步      
+                                        console.log('--- values ----', values)                                                                       
                                         $('.chectout_deliver').removeClass("opened");
                                         $('.chectout_deliver').addClass("filled");    
                                         $('.chectout_payment').addClass("opened");  
                                         $(".chectout_payment .sectContent").slideDown(300);
                                         $(".chectout_deliver .sectContent").slideUp(300);
                                    }}
-                                />                                
+                                />                                                                
                                 <DeliveryNewAddressWrap                                   
                                   rcptSl={editAddr.rcptSl}                                   
                                   rcptFirstNam={editAddr.rcptFirstNam}                                   
@@ -542,29 +519,23 @@ export default class Checkout extends Component {
                                   address1={editAddr.address1}
                                   address2={editAddr.address2}
                                   countryCode={editAddr.countryCode}
-                                  addressId={editAddr.addressId}
-                                  handleCancel={ async (values) => {
-                                      this.setState({
-                                          ...this.state,
-                                          isResetAddr:false,//準備清空欄位。
-                                          editAddr:this.setAddressValue(values)
-                                      })
-                                  }}
-                                  handleCountryChange={ async (e,values) => {                                      
+                                  addressId={editAddr.id}                                
+                                  handleCountryChange={ async (e,values,setFieldValue) => {                                                                            
                                       const country = e.target.value;
+
                                       if(country === 'CN'){
                                           console.log('顯示中國大陸的Dialog')
                                           this.setState({
-                                              ...this.state,
-                                              isResetAddr:false,
-                                              isShowChinaDialog:true,
-                                              editAddr:this.setAddressValue(values)
-                                          })
+                                              ...this.state,                                              
+                                              isShowChinaDialog:true,                                              
+                                          })                                                      
+                                          this.emptyAddressValue(values, setFieldValue)
                                       }else if(country === 'HK'){
-                                           
-                                      }
+                                        setFieldValue('countryCode',country)                                           
+                                      }else
+                                        setFieldValue('countryCode',country)                                      
                                   }}
-                                  submit={async (values, addressId)=>{                                    
+                                  submit={async (values, addressId, setFieldValue)=>{                                    
                                     if(isNewAddr){
                                         //建立新的地址                                        
                                         await this.createAddress(values);
@@ -575,6 +546,7 @@ export default class Checkout extends Component {
                                         await this.updateAddress(values, addressId);
                                         await this.fetchAddressbook();
                                     }
+                                    this.emptyAddressValue(values, setFieldValue) 
                                      //配送選擇 - 送貨服務 - 儲存地址
                                      $(".chectout_sect .delivery_newAddress_wrap").slideUp();
                                      $(".chectout_sect .delivery_details_wrap").slideDown();
@@ -781,8 +753,7 @@ export default class Checkout extends Component {
         {this.state.isShowChinaDialog&&<TempOrderErrorPopup text="更改配送目的地" closeTempOrderFailByOutOfStock={()=>{
             this.setState({
                 ...this.state,
-                isShowChinaDialog:false,
-                isResetAddr:true //當從中國Dialog返回時，清空地址欄位。
+                isShowChinaDialog:false,                
             })
         }} />}
 
