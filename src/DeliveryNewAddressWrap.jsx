@@ -170,7 +170,9 @@ class DeliveryNewAddress extends Component {
               id="cancelSaveAdd_btn"
               className="blockBtn grey"
               href="javascript:void(0)"
-              onClick={handleCancel}
+              onClick={() => {
+                handleCancel(values, setFieldValue);
+              }}
             >
               取消
             </a>
@@ -241,8 +243,11 @@ export const DeliveryNewAddressWrap = withFormik({
     address2: props.address2,
     countryCode: props.countryCode
   }),
-  handleSubmit: async (values, { props, setErrors, setSubmitting }) => {
-    const errors = await props.submit(values, props.addressId);
+  handleSubmit: async (
+    values,
+    { props, setErrors, setSubmitting, setFieldValue }
+  ) => {
+    const errors = await props.submit(values, props.addressId, setFieldValue);
     if (errors) {
       setErrors(errors);
     }

@@ -42,10 +42,8 @@ export default class Checkout extends Component {
     emptyAddressValue(values, setFieldValue){
         Object.keys(values).forEach(item => setFieldValue(item,"", false))
     }
-    setAddressValue(values){
-        console.log('-- CK --- values', values)
-       if(values === undefined){
-        console.log('-- CK ---enter  values', values)
+    setAddressValue(values){        
+       if(values === undefined){        
          return {
             rcptSl: "",
             rcptFirstNam : "",
@@ -468,9 +466,9 @@ export default class Checkout extends Component {
                                    clickNewAddrBtn={()=>{
                                         this.setState({
                                             ...this.state,
-                                            isNewAddr:true, //新增地址狀態                                            
-                                            editAddr:this.setAddressValue()                                        
-                                        }) 
+                                            isNewAddr:true, //新增地址狀態                                                                                        
+                                            editAddr:this.setAddressValue()//載入地址預設值為空                                        
+                                        })                                         
                                         //配送選擇 - 送貨服務 - 新增地址                                       
                                         $("#cancelSaveAdd_btn").show();
                                         $(".chectout_sect .delivery_newAddress_wrap").slideDown();
@@ -481,7 +479,7 @@ export default class Checkout extends Component {
                                       this.setState({
                                           ...this.state,
                                           isNewAddr:false,  //設定修改地址狀態                                          
-                                          editAddr:this.setAddressValue(address)                                        
+                                          editAddr:this.setAddressValue(address)//載入欲編輯的地址到地址表格的預設值
                                       })
                                       
                                       //修改地址-開啟地址表單                                       
@@ -513,13 +511,27 @@ export default class Checkout extends Component {
                                    }}
                                 />                                                                
                                 <DeliveryNewAddressWrap                                   
+                                  //預設值
                                   rcptSl={editAddr.rcptSl}                                   
                                   rcptFirstNam={editAddr.rcptFirstNam}                                   
                                   rcptMobNbr={editAddr.rcptMobNbr}
                                   address1={editAddr.address1}
                                   address2={editAddr.address2}
-                                  countryCode={editAddr.countryCode}
-                                  addressId={editAddr.id}                                
+                                  countryCode={editAddr.countryCode}                                  
+                                  addressId={editAddr.id}         
+                                  
+                                  handleCancel={
+                                    (values,setFieldValue) => {
+                                        if(isNewAddr){
+                                            this.emptyAddressValue(values, setFieldValue)//若為建立新地址，需清空Field value。
+                                            return
+                                        }                                        
+                                        this.setState({
+                                            ...this.state,                                            
+                                            editAddr:this.setAddressValue()//若為編輯地址，需清空預設值，回到空狀態。                                        
+                                        }) 
+                                    }
+                                  }                       
                                   handleCountryChange={ async (e,values,setFieldValue) => {                                                                            
                                       const country = e.target.value;
 
@@ -537,22 +549,21 @@ export default class Checkout extends Component {
                                   }}
                                   submit={async (values, addressId, setFieldValue)=>{                                    
                                     if(isNewAddr){
+                                        this.emptyAddressValue(values, setFieldValue) //若為建立新地址，需清空Field value。
                                         //建立新的地址                                        
                                         await this.createAddress(values);
-                                        await this.fetchAddressbook();
+                                        await this.fetchAddressbook();                                        
                                     }
                                     else{
                                         //更新舊有地址                                        
                                         await this.updateAddress(values, addressId);
                                         await this.fetchAddressbook();
-                                    }
-                                    this.emptyAddressValue(values, setFieldValue) 
+                                    }                                    
                                      //配送選擇 - 送貨服務 - 儲存地址
                                      $(".chectout_sect .delivery_newAddress_wrap").slideUp();
                                      $(".chectout_sect .delivery_details_wrap").slideDown();
                                 }}/>                         
                             </div>
-
 
                             <div className="right_wrap right_wrap_m d-block d-md-none">
                                 <div className="content">
@@ -589,16 +600,9 @@ export default class Checkout extends Component {
                                             </tr>
                                         </table>
                                     </div>
-
-                                    
-
                                 </div>
                             </div>
-
                         </div>
-
-
-
                     </section>
 
                     <section className="chectout_sect chectout_payment">
@@ -662,19 +666,10 @@ export default class Checkout extends Component {
                                             </tr>
                                         </table>
                                     </div>
-
-                                    
-
                                 </div>
-
                             </div>
                         </div>
-
                     </section>
-
-
-
-
                 </div>
 
                 <div className="col-1 d-none d-md-block">
