@@ -31,7 +31,8 @@ class DeliveryNewAddress extends Component {
       touched,
       errors,
       handleCountryChange,
-      handleCancel
+      handleCancel,
+      isHK
     } = this.props;
     return (
       <div className="delivery_newAddress_wrap">
@@ -163,6 +164,25 @@ class DeliveryNewAddress extends Component {
               </p>
             </div>
           </div>
+          {!isHK && (
+            <div className="row no-gutters with-gaps">
+              <div className="col-12 col-md-6">
+                <p>
+                  <input
+                    type="text"
+                    id="postCode"
+                    name="postCode"
+                    placeholder={"郵政編碼*"}
+                    required
+                    value={values.postCode}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <ErrorMessage name="postCode" />
+                </p>
+              </div>
+            </div>
+          )}
         </div>
         <div className="buttons_wrap">
           <div>
