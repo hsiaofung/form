@@ -221,6 +221,9 @@ const invalidPhoneNo = <span className="text-error">電話號碼無效</span>;
 const addressNoNotLongEnough = (
   <span className="text-error">必須填寫大於8個字</span>
 );
+const postCodeNotLongEnough = (
+  <span className="text-error">必須填寫大於5個數字</span>
+);
 const required = <span className="text-error">必須填寫</span>;
 const requiredSelect = <span className="text-error">必須選取一個項目</span>;
 
@@ -243,11 +246,18 @@ const address1Validation = yup
   .max(255)
   .required(required);
 
+const postCodeValidation = yup
+  .string()
+  .min(5, postCodeNotLongEnough)
+  .max(255)
+  .required(required);
+
 const validationSchema = yup.object().shape({
   rcptSl: rcptSlValidation,
   rcptFirstNam: rcptFirstNamValidation,
   rcptMobNbr: rcptMobNbrValidation,
-  address1: address1Validation
+  address1: address1Validation,
+  postCode: postCodeValidation
 });
 export const DeliveryNewAddressWrap = withFormik({
   validationSchema,
@@ -261,7 +271,8 @@ export const DeliveryNewAddressWrap = withFormik({
     rcptMobNbr: props.rcptMobNbr,
     address1: props.address1,
     address2: props.address2,
-    countryCode: props.countryCode
+    countryCode: props.countryCode,
+    postCode: props.postCode
   }),
   handleSubmit: async (
     values,

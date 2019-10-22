@@ -17,6 +17,7 @@ const api={
 
 export default class Checkout extends Component {
     state={
+        isHK:true,
         addressBook:[],
         editAddr:{
             rcptSl: "",
@@ -41,6 +42,22 @@ export default class Checkout extends Component {
     }        
     emptyAddressValue(values, setFieldValue){
         Object.keys(values).forEach(item => setFieldValue(item,"", false))
+    }
+    setAddressEmpty(){
+        this.setState({
+            ...this.state,
+            isNewAddr:true, //新增地址狀態
+            isHK:true,                                                                                        
+            editAddr:this.setAddressValue()//載入地址預設值為空                                        
+        })             
+    }
+    loadAddress(address, isHK){
+        this.setState({
+            ...this.state,                                        
+            isNewAddr:false,  //設定修改地址狀態                                          
+            isHK:isHK,
+            editAddr:this.setAddressValue(address)//載入欲編輯的地址到地址表格的預設值
+        })    
     }
     setAddressValue(values){        
        if(values === undefined){        
@@ -464,11 +481,7 @@ export default class Checkout extends Component {
                                 addressBook={addressBook}
                                    //新增地址
                                    clickNewAddrBtn={()=>{
-                                        this.setState({
-                                            ...this.state,
-                                            isNewAddr:true, //新增地址狀態                                                                                        
-                                            editAddr:this.setAddressValue()//載入地址預設值為空                                        
-                                        })                                         
+                                        this.setAddressEmpty()                                
                                         //配送選擇 - 送貨服務 - 新增地址                                       
                                         $("#cancelSaveAdd_btn").show();
                                         $(".chectout_sect .delivery_newAddress_wrap").slideDown();
@@ -476,18 +489,17 @@ export default class Checkout extends Component {
                                    }}
                                    //修改地址
                                    clickEditAddrBtn={(address)=>{
-                                      this.setState({
-                                          ...this.state,
-                                          isNewAddr:false,  //設定修改地址狀態                                          
-                                          editAddr:this.setAddressValue(address)//載入欲編輯的地址到地址表格的預設值
-                                      })
-                                      
                                       //修改地址-開啟地址表單                                       
                                       $(document).ready(function(){
                                         $("#cancelSaveAdd_btn").show();
                                         $(".chectout_sect .delivery_newAddress_wrap").slideDown();
                                         $(".chectout_sect .delivery_details_wrap").slideUp();
-                                      })                                                                           
+                                      })                         
+                                      if(address.countryCode === 'HK'){
+                                        this.loadAddress(address, true)
+                                        return; 
+                                      }                                      
+                                        this.loadAddress(address, false)                                   
                                    }}
                                    //刪除地址
                                    clickDeleteAddrBtn={async (values,deleteAddrId, setFieldValue)=>{                                                                              
@@ -519,7 +531,7 @@ export default class Checkout extends Component {
                                   address2={editAddr.address2}
                                   countryCode={editAddr.countryCode}                                  
                                   addressId={editAddr.id}         
-                                  
+                                  isHK={this.state.isHK}
                                   handleCancel={
                                     (values,setFieldValue) => {
                                         if(isNewAddr){
@@ -540,11 +552,20 @@ export default class Checkout extends Component {
                                           this.setState({
                                               ...this.state,                                              
                                               isShowChinaDialog:true,                                              
+                                              isHK:true
                                           })                                                      
                                           this.emptyAddressValue(values, setFieldValue)
                                       }else if(country === 'HK'){
+                                        this.setState({
+                                            ...this.state,
+                                            isHK:true
+                                        })  
                                         setFieldValue('countryCode',country)                                           
                                       }else
+                                        this.setState({
+                                            ...this.state,
+                                            isHK:false
+                                        })  
                                         setFieldValue('countryCode',country)                                      
                                   }}
                                   submit={async (values, addressId, setFieldValue)=>{                                    
