@@ -162,6 +162,7 @@ class DeliveryNewAddress extends Component {
                       <option value={country.code}>{country.name}</option>
                     ))}
                 </select>
+                <ErrorMessage name="countryCode" />
               </p>
             </div>
           </div>
@@ -258,16 +259,20 @@ const validationSchema = yup.object().shape({
   rcptFirstNam: rcptFirstNamValidation,
   rcptMobNbr: rcptMobNbrValidation,
   address1: address1Validation,
-  postCode: postCodeValidation
+  countryCode: yup.string().required(requiredSelect)
 });
 export const DeliveryNewAddressWrap = withFormik({
-  //validationSchema,
+  validationSchema,
   enableReinitialize: true, //當props更新時, 是否要reset form
   //validateOnChange: false,//可以關掉change時驗證
   //validateOnBlur: false,//可以關掉blur時驗證
   validate: (values, props) => {
-    let error = {};
-    console.log("values in validate", values);
+    let errors = {};
+    if (values.countryCode !== "HK" && !values.postCode) {
+      errors.postCode = required;
+      console.log("postVali", postCodeValidation);
+    }
+    return errors;
   },
   mapPropsToValues: props => ({
     rcptSl: props.rcptSl,
@@ -283,7 +288,6 @@ export const DeliveryNewAddressWrap = withFormik({
     values,
     { props, setErrors, setSubmitting, setFieldValue }
   ) => {
-    console.log("values", values);
     const errors = await props.submit(values, props.addressId, setFieldValue);
     if (errors) {
       setErrors(errors);
