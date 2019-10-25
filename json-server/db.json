@@ -3362,24 +3362,23 @@
       "giftFor": "CHD"
     },
     {
-      "id": "2504",
-      "type": "S",
-      "country": "香港",
-      "countryCode": "HK",
-      "city": "大安區",
-      "address1": "九龍九龍灣",
-      "postCode": "852",
-      "defaultIndicator": "N",
-      "province": "臺北市",
-      "lastModifyDate": "2018-12-13 14:27:47",
-      "lastModifyEmployeeNumber": "SYS",
-      "address2": "臨興街21號",
       "rcptSl": "01",
-      "rcptFirstNam": "kimooo",
-      "rcptLastNam": "li",
-      "rcptMobCtryCde": "886",
-      "rcptMobNbr": "3067788",
-      "giftFor": "CHD"
+      "rcptFirstNam": "buckaroo banzai",
+      "rcptMobNbr": "111111111",
+      "address1": "banzai street",
+      "address2": "",
+      "countryCode": "TW",
+      "postCode": "88888888888888888888",
+      "id": "VV0OM9V"
+    },
+    {
+      "rcptSl": "",
+      "rcptFirstNam": "",
+      "rcptMobNbr": "",
+      "address1": "",
+      "address2": "",
+      "countryCode": "",
+      "id": "gMJ3bTW"
     }
   ],
   "deliveries": {

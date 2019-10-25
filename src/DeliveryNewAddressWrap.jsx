@@ -156,6 +156,7 @@ class DeliveryNewAddress extends Component {
                   }}
                   onBlur={handleBlur}
                 >
+                  <option value="">請選擇國家/地區</option>
                   {this.state.countryList &&
                     this.state.countryList.map((country, index) => (
                       <option value={country.code}>{country.name}</option>
@@ -260,10 +261,14 @@ const validationSchema = yup.object().shape({
   postCode: postCodeValidation
 });
 export const DeliveryNewAddressWrap = withFormik({
-  validationSchema,
+  //validationSchema,
   enableReinitialize: true, //當props更新時, 是否要reset form
   //validateOnChange: false,//可以關掉change時驗證
   //validateOnBlur: false,//可以關掉blur時驗證
+  validate: (values, props) => {
+    let error = {};
+    console.log("values in validate", values);
+  },
   mapPropsToValues: props => ({
     rcptSl: props.rcptSl,
     rcptFirstNam: props.rcptFirstNam,
@@ -278,6 +283,7 @@ export const DeliveryNewAddressWrap = withFormik({
     values,
     { props, setErrors, setSubmitting, setFieldValue }
   ) => {
+    console.log("values", values);
     const errors = await props.submit(values, props.addressId, setFieldValue);
     if (errors) {
       setErrors(errors);
